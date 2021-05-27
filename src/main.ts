@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
-import ExplorerPlugin from './plugins/ExplorerPlugin';
+
+import 'tippy.js/dist/tippy.css';
 import '@/styles/style.css';
+
+import ExplorerPlugin from './plugins/ExplorerPlugin';
 
 Vue.config.productionTip = false
 

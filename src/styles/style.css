@@ -18,3 +18,8 @@
 .align-items-center {
     align-items: center;
 }
+
+/* tippy related */
+.tippy-content {
+    padding: 0;
+}
