@@ -1,36 +1,34 @@
 <template>
-    <section>
-        <ul v-for="node in explorerNodes"
-            :key="node.id"
-        >
-            <li>
-                <div class="d-flex align-items-center">
-                    <span class="chevron-right" v-if="node.children && node.children.length > 0" @click="toggleVisiblity(node.id, $event)"></span>
-                    <div class="icon-area">
-                        <img src="@/assets/folder.svg" alt="folder" v-if="node.type === ItemType.Folder">
-                    </div>
-                    <checkbox
-                        @statusChanged="onStatusChange(node, $event)"
-                        :node="node.checkedStatus"
-                    />
-                    <span class="node-name cursor">{{ node.name }}</span>
+    <ul>
+        <li v-for="node in explorerNodes" :key="node.id" :id="node.id">
+            <div class="d-flex align-items-center">
+                <span class="chevron-right" v-if="node.children && node.children.length > 0" @click="toggleVisiblity(node.id, $event)"></span>
+                <div class="icon-area">
+                    <img src="@/assets/folder.svg" alt="folder" v-if="node.type === ItemType.Folder">
                 </div>
-                
-                <div class="node-child hide" :id="node.id">
-                    <explorer :explorerNodes="node.children"
-                        v-if="node.children && node.children.length > 0" />
-                </div>
-                <!-- <component :is="ItemType[node.type]" :items="node"/> -->
-            </li>
-        </ul>
-    </section>
+                <checkbox
+                    @statusChanged="onStatusChange(node, $event)"
+                    :node="node.checkedStatus"
+                />
+                <span class="node-name cursor">{{ node.name }}</span>
+            </div>
+            
+            <div class="node-child hide">
+                <explorer :explorerNodes="node.children"
+                    v-if="node.children && node.children.length > 0" />
+            </div>
+            <component 
+                :is="ItemType[node.type]" 
+                :node="node" 
+            />
+        </li>
+    </ul>
 </template>
 
 <script lang='ts'>
 import {Vue, Component, Prop} from 'vue-property-decorator';
 
 import Lease from './ContextMenu/Lease.vue';
-import { eventHub } from './../../businessLogic/explorerEventPublisher';
 
 import { CheckedState, ExplorerItem, ItemTypes } from '@/contracts/types';
 import { explorerViewModel } from '../../businessLogic/explorerViewModel'
@@ -58,11 +56,13 @@ export default class Explorer extends Vue {
     }
 
     private toggleVisiblity(nodeId: string, event: InputEvent): void {
-        const element = document.getElementById(nodeId);
+        const element = document.getElementById(nodeId)?.getElementsByClassName('node-child');
         const target = event.target as HTMLInputElement;
         
-        target.classList.toggle('rotate-90');
-        element?.classList.toggle('hide')
+        if (element) {
+            target.classList.toggle('rotate-90');
+            element[0].classList.toggle('hide')
+        }
     }
 }
 </script>
@@ -72,6 +72,10 @@ ul {
     padding-left: 0;
     margin: 0;
     list-style-type: none;
+
+    li {
+        position: relative;
+    }
 }
 
 .icon-area {
