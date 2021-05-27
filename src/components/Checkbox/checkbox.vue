@@ -1,51 +1,59 @@
 <template>
     <input 
-        type="checkbox" 
         ref="checkbox"
-        v-model="checkBoxValue"
-    />
+        type="checkbox"
+        v-model="checkedValue"
+        @change="onValueChange"
+    >
 </template>
 
 <script lang='ts'>
-import {Vue, Component, Prop, Watch} from 'vue-property-decorator';
-import { CheckedState } from '@/contracts/types';
-import { ExplorerItem } from '../../contracts/types';
+import {Vue, Component, Watch, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Checkbox extends Vue {
-    @Prop({ default: '' }) checkedStatus!: CheckedState;
-    @Prop() onStatusChanged!: (item: ExplorerItem) => void;
+    @Prop({ default: '' }) node!: string;
 
-    private checkBoxValue = false;
-    @Watch('checkBoxValue')
-    onChange(value: boolean) {
-        const checkBoxEl = this.$refs.checkbox as HTMLInputElement;
+    @Watch('node')
+    onNodeChange() {
+        this.setState();
+    }
 
-        if (value) {
-            checkBoxEl.indeterminate = true;
+    private checkedValue = false;
 
-            this.$emit('statusChanged', 'Indeterminate')
-        } else {
-            checkBoxEl.indeterminate = false;
+    onValueChange(event: InputEvent) {
+        const target = event.target as HTMLInputElement
+
+        if (target.checked) {
+            this.$emit('statusChanged', 'True')
         }
 
-        if (!value) {
-            this.$emit('statusChanged', 'True')
+        if (!target.checked) {
+            this.$emit('statusChanged', 'False')
         }
     }
 
-    private setCheckBox() {
-        if (this.checkedStatus === 'True') {
-            this.checkBoxValue = true;
+    private setState() {
+        const checkboxEl = this.$refs.checkbox as HTMLInputElement;
+
+        if (this.node === 'True') {
+            this.checkedValue = true
         }
 
-        if (this.checkedStatus === 'False') {
-            this.checkBoxValue = false;
+        if (this.node === 'Indeterminate') {
+            this.checkedValue = true;
+            checkboxEl.indeterminate = true;
+        } else {
+            checkboxEl.indeterminate = false;
+        }
+
+        if (this.node == 'False') {
+            this.checkedValue = false;
         }
     }
 
     mounted() {
-        this.setCheckBox()
+        this.setState();
     }
 }
 </script>
