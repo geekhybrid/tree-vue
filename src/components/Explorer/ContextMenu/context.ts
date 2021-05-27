@@ -21,6 +21,7 @@ export default class Context extends Vue {
 
         directParentElement.addEventListener('contextmenu', (event: Event) => {
             event.preventDefault();
+            event.stopPropagation();
 
             instance.setProps({
                 getReferenceClientRect: () => ({
