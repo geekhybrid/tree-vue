@@ -5,7 +5,7 @@
         >
             <li>
                 <div class="d-flex align-items-center">
-                    <span class="chevron-down" v-if="node.children && node.children.length > 0" @click="toggleVisiblity(node.id)"></span>
+                    <span class="chevron-right" v-if="node.children && node.children.length > 0" @click="toggleVisiblity(node.id, $event)"></span>
                     <div class="icon-area">
                         <img src="@/assets/folder.svg" alt="folder" v-if="node.type === ItemType.Folder">
                     </div>
@@ -57,9 +57,11 @@ export default class Explorer extends Vue {
         this.viewModel.loadNodes(this.explorerNodes);
     }
 
-    private toggleVisiblity(nodeId: string): void {
+    private toggleVisiblity(nodeId: string, event: InputEvent): void {
         const element = document.getElementById(nodeId);
+        const target = event.target as HTMLInputElement;
         
+        target.classList.toggle('rotate-90');
         element?.classList.toggle('hide')
     }
 }
@@ -92,31 +94,33 @@ ul {
     display: none;
 }
 
-.chevron-down {
+.chevron-right {
     box-sizing: border-box;
     position: relative;
-    display: inline-block;
+    display: block;
     transform: scale(var(--ggs,1));
     width: 22px;
     height: 22px;
     border: 2px solid transparent;
-    border-radius: 100px
+    border-radius: 100px;
+    transition: .2s;
+
+    &.rotate-90 {
+        transform: rotateZ(90deg);
+    }
 }
 
-.chevron-down::after {
+.chevron-right::after {
     content: "";
-    display: inline-block;
+    display: block;
     box-sizing: border-box;
     position: absolute;
-    color: gray;;
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     border-bottom: 2px solid;
     border-right: 2px solid;
-    transform: rotate(45deg);
-    left: 4px;
-    top: 2px
+    transform: rotate(-45deg);
+    right: 6px;
+    top: 4px
 }
-
-
 </style>
