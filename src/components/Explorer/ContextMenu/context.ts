@@ -6,7 +6,7 @@ import { ExplorerItem } from '@/contracts/types';
 export default class Context extends Vue {
     @Prop({ default: () => { return {} }}) node!: ExplorerItem;
 
-    mountTippy(directParentElement: Element) {
+    mountTippy(directParentElement: Element): void {
         const element = this.$vnode.elm as Element;
 
         const instance = tippy(directParentElement, {
@@ -37,7 +37,7 @@ export default class Context extends Vue {
         });
     }
 
-    mounted() {
+    mounted(): void {
         // didn't use this.$parent.$el because it returns parent element
         // of the parent component 
         const directParentElement = document.getElementById(this.node.id) 
