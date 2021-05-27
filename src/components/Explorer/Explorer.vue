@@ -10,14 +10,9 @@
                         <img src="@/assets/folder.svg" alt="folder" v-if="node.type === ItemType.Folder">
                     </div>
                     <checkbox
-                        :on-changed-handler="viewModel.checkedStatus"
-                        @change="viewModel.checkedStatusStatusChanged(node)" 
-                        @statusChanged="node.checkedStatus = $event"
-                        :checkedStatus="node.checkedStatus"
+                        @statusChanged="onStatusChange(node, $event)"
+                        :node="node.checkedStatus"
                     />
-                    <!-- <input type="checkbox" 
-                        @change="viewModel.checkedStatusStatusChanged(node)" 
-                    /> -->
                     <span class="node-name cursor">{{ node.name }}</span>
                 </div>
                 
@@ -37,7 +32,7 @@ import {Vue, Component, Prop} from 'vue-property-decorator';
 import Lease from './ContextMenu/Lease.vue';
 import { eventHub } from './../../businessLogic/explorerEventPublisher';
 
-import { ExplorerItem, ItemTypes } from '@/contracts/types';
+import { CheckedState, ExplorerItem, ItemTypes } from '@/contracts/types';
 import { explorerViewModel } from '../../businessLogic/explorerViewModel'
 
 @Component({
@@ -51,6 +46,11 @@ export default class Explorer extends Vue {
 
     get ItemType(): typeof ItemTypes {
         return ItemTypes
+    }
+
+    private onStatusChange(node: ExplorerItem, event: CheckedState) {
+        node.checkedStatus = event;
+        this.viewModel.checkedStatusChanged(node)
     }
 
     mounted(): void {
