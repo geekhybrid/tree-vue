@@ -1,3 +1,4 @@
+import { Vue } from 'vue-property-decorator';
 import { ExplorerItem, CheckedState } from "@/contracts/types";
 import { eventHub } from "./explorerEventPublisher";
 import { cascadeStateToDescendants, flattenNodes } from "./hierachyTraversal";
@@ -101,6 +102,10 @@ export const explorerViewModel = {
         if(!explorerItem.parentId) return;
 
         const parent = flattenedNodesLookUp[explorerItem.parentId]
-        parent.children?.push(explorerItem);
+        if (parent.children) {
+            parent.children.push(explorerItem);
+        } else {
+            Vue.set(parent, 'children', [explorerItem])
+        }
     }
 }
