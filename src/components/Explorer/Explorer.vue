@@ -73,6 +73,10 @@ export default class Explorer extends Vue {
         if (event.dataTransfer) {
             const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as ExplorerItem;
 
+            if (droppedNode.id === node.id) {
+                return
+            }
+
             this.viewModel.removeExplorerItem(droppedNode.id);
 
             droppedNode.parentId = node.id;
