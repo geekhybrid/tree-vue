@@ -1,6 +1,15 @@
 <template>
-    <ul>
-        <li v-for="node in explorerNodes" :key="node.id" :id="node.id">
+    <ul id="explorer" class="explorer">
+        <li 
+            draggable
+            @dragover.stop.prevent
+            @dragenter.stop.prevent
+            @dragstart.stop="onDragNode(node, $event)"
+            @drop.prevent.stop="onDropNode(node, $event)"
+            v-for="node in explorerNodes" 
+            :key="node.id" 
+            :id="node.id"
+        >
             <div class="d-flex align-items-center">
                 <span class="chevron-right" v-if="node.children && node.children.length > 0" @click="toggleVisiblity(node.id, $event)"></span>
                 <div class="icon-area">
@@ -14,8 +23,11 @@
             </div>
             
             <div class="node-child hide">
-                <explorer :explorerNodes="node.children"
-                    v-if="node.children && node.children.length > 0" />
+                <explorer 
+                    :explorerNodes="node.children"
+                    not-root
+                    v-if="node.children && node.children.length > 0" 
+                />
             </div>
             <component 
                 :is="ItemType[node.type]" 
@@ -51,8 +63,28 @@ export default class Explorer extends Vue {
         this.viewModel.checkedStatusChanged(node)
     }
 
+    private onDragNode(node: ExplorerItem, event: DragEvent) {
+        if (event.dataTransfer) {
+            event.dataTransfer.setData('text/plain', JSON.stringify(node))
+        }
+    }
+
+    private onDropNode(node: ExplorerItem, event: DragEvent){
+        if (event.dataTransfer) {
+            const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as ExplorerItem;
+
+            this.viewModel.removeExplorerItem(droppedNode.id);
+
+            droppedNode.parentId = node.id;
+
+            this.viewModel.addExplorerItem(droppedNode)
+        }
+    }
+
     mounted(): void {
-        this.viewModel.loadNodes(this.explorerNodes);
+        if (!('not-root' in this.$attrs)) {
+            this.viewModel.loadNodes(this.explorerNodes);
+        }
     }
 
     private toggleVisiblity(nodeId: string, event: InputEvent): void {
