@@ -128,6 +128,7 @@ ul {
     padding-left: 0;
     margin: 0;
     list-style-type: none;
+    display: inline-block;
 
     li {
         border-radius: 4px;
