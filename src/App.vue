@@ -1,22 +1,22 @@
 <template>
-  <section>
-    <explorer :explorerNodes="explorerNodes"/>
+  <section >
+    <tree-view :treeViewItems="treeViewNodes" @contextmenu.prevent="$refs.menu.open" />
   </section>
 </template>
 
 <script lang='ts'>
-import {Vue, Component} from 'vue-property-decorator';
+import { Vue, Component} from 'vue-property-decorator';
 
-import { ExplorerItem, ItemTypes } from '@/contracts/types';
+import { TreeViewItem, ItemTypes } from '@/businessLogic/contracts/types';
 
 @Component
 export default class App extends Vue {
-  private explorerNodes: ExplorerItem[] = [
+  treeViewNodes: TreeViewItem[] = [
     {
       name: 'OREDO Easte',
       id: '1203-390293-1hdklsjdl-903923',
       type: ItemTypes.Folder,
-      checkedStatus: 'True',
+      checkedStatus: 'False',
       children: [
         {
           name: 'OREDO 001',
