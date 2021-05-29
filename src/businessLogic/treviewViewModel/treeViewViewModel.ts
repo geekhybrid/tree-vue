@@ -18,7 +18,7 @@ export interface TreeViewViewModel extends TreeViewItemEvents {
 
 let flattenedNodesLookUp: { [id: string]: TreeViewItem } = {};
 
-export const notifyParentOfSelection = (item: TreeViewItem) => {
+export const notifyParentOfSelection = (item: TreeViewItem): void => {
     const parentId = item.parentId as string;
     if (!parentId) return;
     const parent = flattenedNodesLookUp[parentId];

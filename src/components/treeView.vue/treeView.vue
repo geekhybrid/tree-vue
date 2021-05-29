@@ -1,6 +1,14 @@
 <template>
-    <ul >
-        <li v-for="treeViewItem in treeViewItems" :key="treeViewItem.id" :id="treeViewItem.id" >
+    <ul id="explorer" class="explorer">
+        <li v-for="treeViewItem in treeViewItems" :key="treeViewItem.id" :id="treeViewItem.id" 
+                draggable
+                @dragover.stop.prevent
+                @dragenter.stop.prevent
+                @dragstart.stop="onDragNode(treeViewItem, $event)"
+                @drop.prevent.stop="onDropNode(treeViewItem, $event)"
+                @dragover.stop="addHoverClass"
+                @dragleave.stop="removeHoverClass">
+
             <div class="d-flex align-items-center">
                 <span class="chevron-right" v-if="treeViewItem.children && treeViewItem.children.length > 0" @click="toggleVisiblity(treeViewItem.id, $event)"></span>
                 <div class="icon-area">
@@ -12,6 +20,7 @@
             
             <div class="node-child hide">
                 <tree-view :treeViewItems="treeViewItem.children"
+                     not-root
                     v-if="treeViewItem.children && treeViewItem.children.length > 0" />
             </div>
         </li>
@@ -37,8 +46,55 @@ export default class TreeView extends Vue {
         item.checkedStatus = status;
     }
 
+    addHoverClass(event: DragEvent): void {
+        const target = event.currentTarget as HTMLElement;
+
+        if (target) {
+            target.classList.add('drag-over')
+        }
+    }
+
+    removeHoverClass(event: DragEvent): void {
+        const target = event.currentTarget as HTMLElement;
+
+        if (target) {
+            target.classList.remove('drag-over')
+        }
+    }
+
+    onStatusChange(item: TreeViewItem, event: CheckedState): void {
+        item.checkedStatus = event;
+        this.viewModel.checkedStatusChanged(item)
+    }
+
+    onDragNode(item: TreeViewItem, event: DragEvent): void {
+        if (event.dataTransfer) {
+            event.dataTransfer.setData('text/plain', JSON.stringify(item))
+        }
+    }
+
+    onDropNode(node: TreeViewItem, event: DragEvent): void {
+        if (event.dataTransfer) {
+            const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as TreeViewItem;
+
+            this.removeHoverClass(event)
+
+            if (droppedNode.id === node.id) {
+                return
+            }
+
+            this.viewModel.removeTreeViewItem(droppedNode.id);
+
+            droppedNode.parentId = node.id;
+
+            this.viewModel.addTreeViewItem(droppedNode)
+        }
+    }
+
     mounted(): void {
-        this.viewModel.loadNodes(this.treeViewItems);
+        if (!('not-root' in this.$attrs)) {
+            this.viewModel.loadNodes(this.treeViewItems);
+        }
     }
 
     toggleVisiblity(nodeId: string, event: InputEvent): void {
@@ -58,6 +114,15 @@ ul {
     padding-left: 0;
     margin: 0;
     list-style-type: none;
+    display: inline-block;
+
+    li {
+        border-radius: 4px;
+
+        &.drag-over {
+            background-color: rgba(22, 22, 22, 0.068);
+        }
+    }
 }
 
 .chevron-right {
