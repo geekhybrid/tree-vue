@@ -1,14 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
-
-import 'tippy.js/dist/tippy.css';
 import '@/styles/style.css';
 
-import ExplorerPlugin from './plugins/ExplorerPlugin';
+import TreeViewPlugin from './plugins/TreeViewPlugin';
 
 Vue.config.productionTip = false
 
-Vue.use(ExplorerPlugin);
+Vue.use(TreeViewPlugin);
 
 new Vue({
   render: h => h(App),

@@ -1,4 +1,4 @@
-# wrfm-asset-explorer
+# wrfm-asset-TreeView
 
 ## Project setup
 ```
