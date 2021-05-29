@@ -6,6 +6,8 @@
             @dragenter.stop.prevent
             @dragstart.stop="onDragNode(node, $event)"
             @drop.prevent.stop="onDropNode(node, $event)"
+            @dragover.stop="addHoverClass"
+            @dragleave.stop="removeHoverClass"
             v-for="node in explorerNodes" 
             :key="node.id" 
             :id="node.id"
@@ -38,7 +40,7 @@
 </template>
 
 <script lang='ts'>
-import {Vue, Component, Prop} from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import Lease from './ContextMenu/Lease.vue';
 
@@ -58,6 +60,22 @@ export default class Explorer extends Vue {
         return ItemTypes
     }
 
+    private addHoverClass(event: DragEvent): void {
+        const target = event.currentTarget as HTMLElement;
+
+        if (target) {
+            target.classList.add('drag-over')
+        }
+    }
+
+    private removeHoverClass(event: DragEvent): void {
+        const target = event.currentTarget as HTMLElement;
+
+        if (target) {
+            target.classList.remove('drag-over')
+        }
+    }
+
     private onStatusChange(node: ExplorerItem, event: CheckedState) {
         node.checkedStatus = event;
         this.viewModel.checkedStatusChanged(node)
@@ -69,9 +87,11 @@ export default class Explorer extends Vue {
         }
     }
 
-    private onDropNode(node: ExplorerItem, event: DragEvent){
+    private onDropNode(node: ExplorerItem, event: DragEvent) {
         if (event.dataTransfer) {
             const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as ExplorerItem;
+
+            this.removeHoverClass(event)
 
             if (droppedNode.id === node.id) {
                 return
@@ -108,6 +128,14 @@ ul {
     padding-left: 0;
     margin: 0;
     list-style-type: none;
+
+    li {
+        border-radius: 4px;
+
+        &.drag-over {
+            background-color: rgba(22, 22, 22, 0.068);
+        }
+    }
 }
 
 .icon-area {
