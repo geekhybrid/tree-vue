@@ -1,3 +1,4 @@
+import { Vue } from 'vue-property-decorator';
 import { TreeViewItem, CheckedState } from "@/businessLogic/contracts/types";
 import { eventHub } from "@/businessLogic/eventHub/explorerEventPublisher";
 import { cascadeStateToDescendants, flattenNodes } from "../hierachyTraversal/hierachyTraversal";

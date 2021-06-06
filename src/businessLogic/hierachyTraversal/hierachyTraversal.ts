@@ -31,6 +31,10 @@ export const flattenNodes = (nodes: TreeViewItem[] | undefined): {[id: string]: 
     if (!nodes) return flatLookUp;
 
     nodes.forEach(node => {
+        if (!node.children) {
+            node.children = [];
+        }
+
         flatLookUp[node.id] = node;
         Object.assign(flatLookUp, flattenNodes(node.children));
     })
