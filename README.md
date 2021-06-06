@@ -1,24 +1,54 @@
-# wrfm-asset-TreeView
+# Tree-Vue
 
-## Project setup
-```
-npm install
+A light-weight library for management of hierachical content. Most solutions I found did not offer the depth of flexibility I needed with the tree order than simply display the items. I decided to solve my problem and also give back. Feel free to log issues, I will jump on them at the slightest opportunity. 😊
+
+## What it does.
+
+1. Hierachical rendering of content.
+2. Event publishing/subscription from items
+    - Item (un)checked event
+    - Item moved (drag-and-drop)
+    - Custom formating of items on the tree based on the `type` property. (Coming soon)
+      - Icon
+      - Rendering (checkboxes or plain content)
+      - Custom Context Menu
+3. Programmatically toggle item visibility based on the `type` property.
+
+## What it looks like.
+
+![image](https://user-images.githubusercontent.com/39003759/120940731-9d779580-c716-11eb-9c95-6c1ce388f786.png)
+
+## How to use (Basic).
+ 
+``` ts
+<template>
+    <tree-view :treeViewItems="treeViewNodes" />
+</template>
+
+<script lang='ts'>
+import { Vue, Component} from 'vue-property-decorator';
+
+import { TreeViewItem, ItemTypes } from '@/businessLogic/contracts/types';
+
+@Component
+export default class App extends Vue {
+  treeViewNodes: TreeViewItem[] = []
+}
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
+## Item Schema
+
+```ts
+export interface TreeViewItem {
+    children?: TreeViewItem[]
+    type: ItemTypes
+    checkedStatus?: CheckedState,
+    checkable?: boolean,
+    name: string,
+    id: string,
+    parentId?: string
+}
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## How to use Advance
+Coming soon!
