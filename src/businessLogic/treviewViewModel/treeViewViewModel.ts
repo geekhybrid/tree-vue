@@ -1,3 +1,4 @@
+import { Vue } from 'vue-property-decorator';
 import { TreeViewItem, CheckedState } from "@/businessLogic/contracts/types";
 import { eventHub } from "@/businessLogic/eventHub/explorerEventPublisher";
 import { cascadeStateToDescendants, flattenNodes } from "../hierachyTraversal/hierachyTraversal";
@@ -105,6 +106,10 @@ export const TreeViewViewModel: TreeViewViewModel = {
         if(!TreeViewItem.parentId) return;
 
         const parent = flattenedNodesLookUp[TreeViewItem.parentId]
-        parent.children?.push(TreeViewItem);
+        if (parent.children) {
+            parent.children.push(TreeViewItem);
+        } else {
+            Vue.set(parent, 'children', [TreeViewItem])
+        }
     }
 }
