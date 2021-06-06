@@ -106,10 +106,6 @@ export const TreeViewViewModel: TreeViewViewModel = {
         if(!TreeViewItem.parentId) return;
 
         const parent = flattenedNodesLookUp[TreeViewItem.parentId]
-        if (parent.children) {
-            parent.children.push(TreeViewItem);
-        } else {
-            Vue.set(parent, 'children', [TreeViewItem])
-        }
+        parent.children?.push(TreeViewItem);
     }
 }
