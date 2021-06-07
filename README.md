@@ -41,7 +41,7 @@ export default class App extends Vue {
 ```ts
 export interface TreeViewItem {
     children?: TreeViewItem[]
-    type: ItemTypes
+    type: string
     checkedStatus?: CheckedState,
     checkable?: boolean,
     name: string,
@@ -51,16 +51,22 @@ export interface TreeViewItem {
 ```
 
 ## How to use Advance
+![image](https://user-images.githubusercontent.com/39003759/121064978-27c80400-c7c0-11eb-887a-db4f29660c8b.png)
+
 
 ### Customising Icons
 
 You can customise item based on their `type` property.
 
 ```html
-<tree-view :treeViewItems="treeViewNodes">
-    <template v-slot:icon="item">
-        <img src="@/assets/folder.svg" alt="folder" >
-    </template>
-</tree-view>
+<template>
+  <tree-view :treeViewItems="treeViewNodes">
+      <template v-slot:icon="treeViewItem">
+          <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type === 'folder'" >
+          <img src="@/assets/word.png" alt="vue-logo" v-else-if="treeViewItem.type === '.doc'" height="22" width="22">
+          <img src="@/assets/excel.png" alt="vue-logo" v-else-if="treeViewItem.type === '.excel'" height="22" width="22">
+      </template>
+  </tree-view>
+</template>
 
 ```
