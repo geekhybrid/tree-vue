@@ -1,7 +1,11 @@
 <template>
-  <section >
-    <tree-view :treeViewItems="treeViewNodes"  />
-  </section>
+  <tree-view :treeViewItems="treeViewNodes">
+      <template v-slot:icon="treeViewItem">
+          <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type === 'folder'" >
+          <img src="@/assets/word.png" alt="vue-logo" v-else-if="treeViewItem.type === '.doc'" height="22" width="22">
+          <img src="@/assets/excel.png" alt="vue-logo" v-else-if="treeViewItem.type === '.excel'" height="22" width="22">
+      </template>
+  </tree-view>
 </template>
 
 <script lang='ts'>
@@ -13,43 +17,43 @@ import { TreeViewItem } from '@/businessLogic/contracts/types';
 export default class App extends Vue {
   treeViewNodes: TreeViewItem[] = [
     {
-      name: 'Folder 1',
+      name: 'Desktop',
       id: '1203-390293-1hdklsjdl-903923',
       type: 'folder',
       checkedStatus: 'False',
       children: [
         {
-          name: 'Asset 1',
+          name: 'Resume',
           id: '1203-390293-1hdklhsjdl-903923',
-          type: 'custom-file',
+          type: '.doc',
           parentId: '1203-390293-1hdklsjdl-903923',
           checkedStatus: 'False',
         },
         {
-          name: 'Asset 2',
+          name: 'Cover Letter',
           id: '1203-1hdklsjdl-903923',
-          type: 'custom-file',
+          type: '.doc',
           parentId: '1203-390293-1hdklsjdl-903923',
           checkedStatus: 'False'
         }
       ]
     },
     {
-      name: 'Folder 2',
+      name: 'Hard Drive',
       type: 'folder',
       id: '1203-390293-1hdkl-903923',
       checkedStatus: 'False',
       children: [
         {
-          name: 'Asset-3',
-          type: 'custom-file',
+          name: 'Remote Time-Sheet',
+          type: '.excel',
           id: '1203-390293-1hdklsjdl-93',
           parentId: '1203-390293-1hdkl-903923',
           checkedStatus: 'False' 
         },
         {
-          name: 'Asset-04',
-          type: 'custom-file',
+          name: 'Monthly Budget',
+          type: '.excel',
           id: '1203-39293-1hdklsjdl-93',
           parentId: '1203-390293-1hdkl-903923',
           checkedStatus: 'False'

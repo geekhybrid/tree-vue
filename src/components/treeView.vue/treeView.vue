@@ -12,7 +12,9 @@
             <div class="d-flex align-items-center">
                 <span class="chevron-right" v-if="treeViewItem.children && treeViewItem.children.length > 0" @click="toggleVisiblity(treeViewItem.id, $event)"></span>
                 <div class="icon-area">
-                    <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type.toLowerCase() == 'folder'">
+                    <slot name="icon" v-bind="treeViewItem">
+                        <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type.toLowerCase() == 'folder'">
+                    </slot>
                 </div>
                 <treeview-item :item="treeViewItem" :treeViewModel="viewModel" @changed="updateItemCheckedStatus"/>
                 <span class="node-name cursor">{{ treeViewItem.name }}</span>
@@ -20,7 +22,11 @@
             
             <div class="node-child hide">
                 <tree-view :treeViewItems="treeViewItem.children" nested
-                    v-if="treeViewItem.children && treeViewItem.children.length > 0" />
+                    v-if="treeViewItem.children && treeViewItem.children.length > 0" >
+                    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="props">
+                        <slot :name="slot" v-bind="props"/>
+                    </template>
+                </tree-view>
             </div>
         </li>
     </ul>
@@ -53,7 +59,7 @@ export default class TreeView extends Vue {
         const target = event.currentTarget as HTMLElement;
 
         if (target) {
-            target.classList.remove('drag-over')
+            target.classList.remove('drag-over');
         }
     }
 
@@ -64,7 +70,7 @@ export default class TreeView extends Vue {
 
     onDragNode(item: TreeViewItem, event: DragEvent): void {
         if (event.dataTransfer) {
-            event.dataTransfer.setData('text/plain', JSON.stringify(item))
+            event.dataTransfer.setData('text/plain', JSON.stringify(item));
         }
     }
 
@@ -82,7 +88,7 @@ export default class TreeView extends Vue {
 
             droppedNode.parentId = node.id;
 
-            this.viewModel.addTreeViewItem(droppedNode)
+            this.viewModel.addTreeViewItem(droppedNode);
         }
     }
 
@@ -127,6 +133,7 @@ ul {
 
 .icon-area {
     width: 16px;
+    margin-right: .7em;
 }
 
 .node-name {
