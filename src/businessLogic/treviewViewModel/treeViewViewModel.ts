@@ -1,13 +1,9 @@
-import { Vue } from 'vue-property-decorator';
 import { TreeViewItem, CheckedState } from "@/businessLogic/contracts/types";
 import { eventHub } from "@/businessLogic/eventHub/explorerEventPublisher";
 import { cascadeStateToDescendants, flattenNodes } from "../hierachyTraversal/hierachyTraversal";
 
-export interface TreeViewItemEvents {
-    checkedStatusChanged(item: TreeViewItem): void;
-}
-
-export interface TreeViewViewModel extends TreeViewItemEvents {
+let flattenedNodesLookUp: { [id: string]: TreeViewItem } = {};
+export interface TreeViewViewModel  {
     loadNodes(nodes: TreeViewItem[]): void;
     getNodes(): { [id: string]: TreeViewItem };
     removeTreeViewItem(id: string): boolean;
@@ -17,7 +13,6 @@ export interface TreeViewViewModel extends TreeViewItemEvents {
     checkedStatusChanged(item: TreeViewItem): void;
 }
 
-let flattenedNodesLookUp: { [id: string]: TreeViewItem } = {};
 
 export const notifyParentOfSelection = (item: TreeViewItem): void => {
     const parentId = item.parentId as string;

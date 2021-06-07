@@ -7,6 +7,19 @@ export interface TreeViewItem {
     parentId?: string
 }
 
+export interface ItemTypeCustomisations {
+    makeItemsCheckable(types: string[]): void;
+    typeCustomisations(): {[type: string]: Customisations };
+}
+
+export interface TreeViewCreatedEventPayload {
+    itemCustomisations: 
+}
+
+export interface Customisations {
+    isCheckable?: boolean;
+}
+
 export interface ItemCheckedChangedEvent {
     item: TreeViewItem,
     status: CheckedState
