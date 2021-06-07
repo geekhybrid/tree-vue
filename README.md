@@ -20,7 +20,7 @@ A light-weight library for management of hierachical content. Most solutions I f
 
 ## How to use (Basic).
  
-``` ts
+``` html
 <template>
     <tree-view :treeViewItems="treeViewNodes" />
 </template>
@@ -51,4 +51,16 @@ export interface TreeViewItem {
 ```
 
 ## How to use Advance
-Coming soon!
+
+### Customising Icons
+
+You can customise item based on their `type` property.
+
+```html
+<tree-view :treeViewItems="treeViewNodes">
+    <template v-slot:icon="item">
+        <img src="@/assets/folder.svg" alt="folder" >
+    </template>
+</tree-view>
+
+```
