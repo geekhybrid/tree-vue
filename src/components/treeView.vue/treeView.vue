@@ -19,8 +19,7 @@
             </div>
             
             <div class="node-child hide">
-                <tree-view :treeViewItems="treeViewItem.children"
-                     not-root
+                <tree-view :treeViewItems="treeViewItem.children" nested
                     v-if="treeViewItem.children && treeViewItem.children.length > 0" />
             </div>
         </li>
@@ -92,7 +91,8 @@ export default class TreeView extends Vue {
     }
 
     mounted(): void {
-        if (!('not-root' in this.$attrs)) {
+        const isRootNode = !('nested' in this.$attrs);
+        if (isRootNode) {
             this.viewModel.loadNodes(this.treeViewItems);
         }
     }

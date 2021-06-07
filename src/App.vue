@@ -1,6 +1,6 @@
 <template>
   <section >
-    <tree-view :treeViewItems="treeViewNodes" @contextmenu.prevent="$refs.menu.open" />
+    <tree-view :treeViewItems="treeViewNodes"  />
   </section>
 </template>
 
