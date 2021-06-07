@@ -12,7 +12,7 @@
             <div class="d-flex align-items-center">
                 <span class="chevron-right" v-if="treeViewItem.children && treeViewItem.children.length > 0" @click="toggleVisiblity(treeViewItem.id, $event)"></span>
                 <div class="icon-area">
-                    <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type === ItemType.Folder">
+                    <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type.toLowerCase() == 'folder'">
                 </div>
                 <treeview-item :item="treeViewItem" :treeViewModel="viewModel" @changed="updateItemCheckedStatus"/>
                 <span class="node-name cursor">{{ treeViewItem.name }}</span>
@@ -29,16 +29,12 @@
 <script lang='ts'>
 import {Vue, Component, Prop} from 'vue-property-decorator';
 import { TreeViewViewModel } from '@/businessLogic/treviewViewModel/treeViewViewModel'
-import { CheckedState, ItemCheckedChangedEvent, ItemTypes, TreeViewItem } from '@/businessLogic/contracts/types';
+import { CheckedState, ItemCheckedChangedEvent, TreeViewItem } from '@/businessLogic/contracts/types';
 
 @Component
 export default class TreeView extends Vue {
     @Prop({ default: () => { return [] }}) treeViewItems!: TreeViewItem[];
     viewModel = TreeViewViewModel;
-
-    get ItemType(): typeof ItemTypes {
-        return ItemTypes
-    }
 
     updateItemCheckedStatus(checkedEvent: ItemCheckedChangedEvent): void {
         const { item, status } = checkedEvent;

@@ -1,34 +1,34 @@
-import { TreeViewItem, ItemTypes } from "../contracts/types";
+import { TreeViewItem } from "../contracts/types";
 import { TreeViewViewModel } from "./treeViewViewModel";
 
 describe('TreeViewViewModel', () => {
     const child1: TreeViewItem = 
     {
-        type: ItemTypes.Well,
-        name: "PECON-001",
+        type: "w-file",
+        name: "Cover Letter",
         checkedStatus: 'True',
         id: 'child-1',
         parentId: 'parent'
     };
 
     const child2: TreeViewItem = {
-        type: ItemTypes.Well,
-        name: "PECON-002",
+        type: 'w-file',
+        name: "Resume",
         id: 'child-2',
         checkedStatus: 'True',
         parentId: 'parent'
     };
 
     const child3: TreeViewItem = {
-        type: ItemTypes.Well,
-        name: "PECON-003",
+        type: 'w-file',
+        name: "Introduction",
         id: 'child-3',
         checkedStatus: 'True',
         parentId: 'parent'
     };
 
     const parentFolder: TreeViewItem = {
-        type: ItemTypes.Folder,
+        type: 'Folder',
         name: "PECON",
         checkedStatus: 'False',
         id: 'parent',

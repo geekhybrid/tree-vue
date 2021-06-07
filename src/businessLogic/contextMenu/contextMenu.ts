@@ -1,4 +1,4 @@
-import { TreeViewItem, ItemTypes } from "@/businessLogic/contracts/types";
+import { TreeViewItem } from "@/businessLogic/contracts/types";
 
 const contextMenuLookUp: {[type: string]: MenuItem[] } = {}
 
@@ -10,16 +10,16 @@ export interface MenuItem {
 }
 
 export interface ContextMenuConfiguration {
-    registerMenuItems(type: ItemTypes, menuItems: MenuItem[]): void;
-    getMenuItems(type: ItemTypes): MenuItem[];
+    registerMenuItems(type: string, menuItems: MenuItem[]): void;
+    getMenuItems(type: string): MenuItem[];
 }
 
 export const contextMenuConfig : ContextMenuConfiguration = {
-    registerMenuItems(type: ItemTypes, menuItems: MenuItem[]) {
+    registerMenuItems(type: string, menuItems: MenuItem[]) {
         contextMenuLookUp[type.toString()] = menuItems;
     },
 
-    getMenuItems(type: ItemTypes): MenuItem[] {
+    getMenuItems(type: string): MenuItem[] {
         return contextMenuLookUp[type.toString()];
     }
 }

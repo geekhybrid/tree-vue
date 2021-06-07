@@ -1,7 +1,7 @@
-import { TreeViewItem, CheckedState, ItemTypes } from "../contracts/types"
+import { TreeViewItem, CheckedState } from "../contracts/types"
 
 ///  This recursive call is used to traverse a folder looking for all children of a particular type
-export const findChildrenOfType = (parent: TreeViewItem, expectedType: ItemTypes): TreeViewItem[] => {
+export const findChildrenOfType = (parent: TreeViewItem, expectedType: string): TreeViewItem[] => {
     const children: TreeViewItem[] = [];
     if (!parent.children) return children;
 
@@ -10,7 +10,7 @@ export const findChildrenOfType = (parent: TreeViewItem, expectedType: ItemTypes
             children.push(TreeViewItem);
         }
 
-        if (TreeViewItem.type === ItemTypes.Folder){
+        if (TreeViewItem.type === 'folder'){
             children.push(...findChildrenOfType(TreeViewItem, expectedType));
         }
     });

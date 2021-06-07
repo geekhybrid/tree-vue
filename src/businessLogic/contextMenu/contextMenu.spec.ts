@@ -1,4 +1,3 @@
-import { ItemTypes } from "../contracts/types";
 import { contextMenuConfig, ContextMenuConfiguration } from "./contextMenu";
 
 describe("ContextMenu", () => {
@@ -13,14 +12,14 @@ describe("ContextMenu", () => {
         const isDisabled = true;
         const expectedCommand = () => new Promise<void>((accept) => {});
         
-        configuration?.registerMenuItems(ItemTypes.Well, [{
+        configuration?.registerMenuItems('docs', [{
             label: expectedLabel,
             icon: iconPath,
             isDisabled: isDisabled,
             command: expectedCommand
         }]);
 
-        const commandItem = configuration?.getMenuItems(ItemTypes.Well)[0];
+        const commandItem = configuration?.getMenuItems('docs')[0];
         expect(commandItem?.label).toBe(expectedLabel);
         expect(commandItem?.icon).toBe(iconPath);
         expect(commandItem?.isDisabled).toBe(isDisabled);

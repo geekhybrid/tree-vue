@@ -7,7 +7,7 @@
 <script lang='ts'>
 import { Vue, Component} from 'vue-property-decorator';
 
-import { TreeViewItem, ItemTypes } from '@/businessLogic/contracts/types';
+import { TreeViewItem } from '@/businessLogic/contracts/types';
 
 @Component
 export default class App extends Vue {
@@ -15,20 +15,20 @@ export default class App extends Vue {
     {
       name: 'Folder 1',
       id: '1203-390293-1hdklsjdl-903923',
-      type: ItemTypes.Folder,
+      type: 'folder',
       checkedStatus: 'False',
       children: [
         {
           name: 'Asset 1',
           id: '1203-390293-1hdklhsjdl-903923',
-          type: ItemTypes.Lease,
+          type: 'custom-file',
           parentId: '1203-390293-1hdklsjdl-903923',
           checkedStatus: 'False',
         },
         {
           name: 'Asset 2',
           id: '1203-1hdklsjdl-903923',
-          type: ItemTypes.Lease,
+          type: 'custom-file',
           parentId: '1203-390293-1hdklsjdl-903923',
           checkedStatus: 'False'
         }
@@ -36,20 +36,20 @@ export default class App extends Vue {
     },
     {
       name: 'Folder 2',
-      type: ItemTypes.Folder,
+      type: 'folder',
       id: '1203-390293-1hdkl-903923',
       checkedStatus: 'False',
       children: [
         {
           name: 'Asset-3',
-          type: ItemTypes.Lease,
+          type: 'custom-file',
           id: '1203-390293-1hdklsjdl-93',
           parentId: '1203-390293-1hdkl-903923',
           checkedStatus: 'False' 
         },
         {
           name: 'Asset-04',
-          type: ItemTypes.Lease,
+          type: 'custom-file',
           id: '1203-39293-1hdklsjdl-93',
           parentId: '1203-390293-1hdkl-903923',
           checkedStatus: 'False'
@@ -58,27 +58,27 @@ export default class App extends Vue {
     },
     {
       name: 'C:/',
-      type: ItemTypes.Folder,
+      type: 'folder',
       id: '1203-390293-1hfdkl-903923',
       checkedStatus: 'False',
       children: [
         {
           name: 'Documents',
-          type: ItemTypes.Folder,
+          type: 'folder',
           id: '1203-39029f3-1hdklsjdl-93',
           parentId: '1203-390293-1hfdkl-903923',
           checkedStatus: 'False',
           children: [
             {
               name: 'Pictures',
-              type: ItemTypes.Well,
+              type: 'docs',
               id: '1203-29f3-1hdklsjdl-93',
               parentId: '1203-39029f3-1hdklsjdl-93',
               checkedStatus: 'False',
             },
             {
               name: 'Videos',
-              type: ItemTypes.Well,
+              type: 'docs',
               id: '1203-29fbb3-1hdklsjdl-93',
               parentId: '1203-39029f3-1hdklsjdl-93',
               checkedStatus: 'False',
@@ -87,7 +87,7 @@ export default class App extends Vue {
         },
         {
           name: 'Repositories',
-          type: ItemTypes.Lease,
+          type: 'custom-file',
           id: '1203-39b293-1hdklsjdl-93',
           parentId: '1203-390293-1hfdkl-903923',
           checkedStatus: 'False'

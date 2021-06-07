@@ -1,6 +1,6 @@
 export interface TreeViewItem {
     children?: TreeViewItem[]
-    type: ItemTypes
+    type: string
     checkedStatus?: CheckedState,
     checkable?: boolean,
     name: string,
@@ -14,9 +14,3 @@ export interface ItemCheckedChangedEvent {
 }
 
 export type CheckedState = 'True' | 'False' | 'Indeterminate';
-
-export enum ItemTypes {
-    Folder,
-    Well,
-    Lease,
-}
