@@ -2,7 +2,6 @@ export interface TreeViewItem {
     children?: TreeViewItem[]
     type: string
     checkedStatus?: CheckedState,
-    checkable?: boolean,
     name: string,
     id: string,
     parentId?: string
