@@ -102,6 +102,9 @@ export default class App extends Vue {
   ];
 }
 </script>
-
-
 ```
+
+#### Output
+
+![image](https://user-images.githubusercontent.com/39003759/121091770-7090b480-c7e2-11eb-9ee5-e79351bd8ed8.png)
+
