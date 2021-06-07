@@ -1,9 +1,10 @@
 <template>
-  <tree-view :treeViewItems="treeViewNodes">
+  <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView">
       <template v-slot:icon="treeViewItem">
           <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type === 'folder'" >
-          <img src="@/assets/word.png" alt="vue-logo" v-else-if="treeViewItem.type === '.doc'" height="22" width="22">
-          <img src="@/assets/excel.png" alt="vue-logo" v-else-if="treeViewItem.type === '.excel'" height="22" width="22">
+          <img src="@/assets/word.svg" alt="vue-logo" v-else-if="treeViewItem.type === '.doc'" height="18" width="18">
+          <img src="@/assets/excel.svg" alt="vue-logo" v-else-if="treeViewItem.type === '.excel'" height="18" width="18">
+          <img src="@/assets/playlist.svg" alt="vue-logo" v-else-if="treeViewItem.type === 'media'" height="18" width="18">
       </template>
   </tree-view>
 </template>
@@ -11,10 +12,17 @@
 <script lang='ts'>
 import { Vue, Component} from 'vue-property-decorator';
 
-import { TreeViewItem } from '@/businessLogic/contracts/types';
+import { TreeViewCreatedEventPayload, TreeViewItem } from '@/businessLogic/contracts/types';
 
 @Component
 export default class App extends Vue {
+
+  customiseTreeView(treeCreatedEvent: TreeViewCreatedEventPayload) {
+    const customisations = treeCreatedEvent.itemCustomisations;
+    
+    customisations.makeItemsCheckable([".doc", ".excel", "media" ]);
+  }
+
   treeViewNodes: TreeViewItem[] = [
     {
       name: 'Desktop',
@@ -75,14 +83,14 @@ export default class App extends Vue {
           children: [
             {
               name: 'Pictures',
-              type: 'docs',
+              type: 'media',
               id: '1203-29f3-1hdklsjdl-93',
               parentId: '1203-39029f3-1hdklsjdl-93',
               checkedStatus: 'False',
             },
             {
               name: 'Videos',
-              type: 'docs',
+              type: 'media',
               id: '1203-29fbb3-1hdklsjdl-93',
               parentId: '1203-39029f3-1hdklsjdl-93',
               checkedStatus: 'False',
@@ -91,7 +99,7 @@ export default class App extends Vue {
         },
         {
           name: 'Repositories',
-          type: 'custom-file',
+          type: 'code',
           id: '1203-39b293-1hdklsjdl-93',
           parentId: '1203-390293-1hfdkl-903923',
           checkedStatus: 'False'

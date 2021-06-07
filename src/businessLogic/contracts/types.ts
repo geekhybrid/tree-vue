@@ -13,7 +13,7 @@ export interface ItemTypeCustomisations {
 }
 
 export interface TreeViewCreatedEventPayload {
-    itemCustomisations: 
+    itemCustomisations: ItemTypeCustomisations;
 }
 
 export interface Customisations {

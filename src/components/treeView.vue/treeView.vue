@@ -16,8 +16,8 @@
                         <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type.toLowerCase() == 'folder'">
                     </slot>
                 </div>
-                <treeview-item :item="treeViewItem" :treeViewModel="viewModel" @changed="updateItemCheckedStatus"/>
-                <span class="node-name cursor">{{ treeViewItem.name }}</span>
+                <treeview-item :item="treeViewItem" :treeViewModel="viewModel" @changed="updateItemCheckedStatus"
+                               :customisations="getItemCustomisation(treeViewItem.type)" />
             </div>
             
             <div class="node-child hide">
@@ -35,12 +35,26 @@
 <script lang='ts'>
 import {Vue, Component, Prop} from 'vue-property-decorator';
 import { TreeViewViewModel } from '@/businessLogic/treviewViewModel/treeViewViewModel'
-import { CheckedState, ItemCheckedChangedEvent, TreeViewItem } from '@/businessLogic/contracts/types';
+import { CheckedState, Customisations, ItemCheckedChangedEvent, TreeViewCreatedEventPayload, TreeViewItem } from '@/businessLogic/contracts/types';
+import { ItemCustomisations } from "@/businessLogic/itemCustomisations/itemCustomisations";
 
 @Component
 export default class TreeView extends Vue {
     @Prop({ default: () => { return [] }}) treeViewItems!: TreeViewItem[];
     viewModel = TreeViewViewModel;
+    itemCustomisations = ItemCustomisations;
+
+    created(): void {
+        const payload: TreeViewCreatedEventPayload = {
+            itemCustomisations: this.itemCustomisations
+        };
+
+        this.$emit("created", payload);
+    }
+
+    getItemCustomisation(type: string): Customisations {
+        return this.itemCustomisations.typeCustomisations()[type];
+    }
 
     updateItemCheckedStatus(checkedEvent: ItemCheckedChangedEvent): void {
         const { item, status } = checkedEvent;
