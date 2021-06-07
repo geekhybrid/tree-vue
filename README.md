@@ -9,7 +9,7 @@ A light-weight library for management of hierachical content. Most solutions I f
     - Item (un)checked event
     - Item moved (drag-and-drop)
     - Custom formating of items on the tree based on the `type` property. (Coming soon)
-      - Icon
+      - :heavy_check_mark: Customising Icons
       - Rendering (checkboxes or plain content)
       - Custom Context Menu
 3. Programmatically toggle item visibility based on the `type` property.
