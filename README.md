@@ -10,7 +10,7 @@ A light-weight library for management of hierachical content. Most solutions I f
     - :heavy_check_mark: Item moved (drag-and-drop)
     - Custom formating of items on the tree based on the `type` property. (Coming soon)
       - :heavy_check_mark: Customising Icons
-      - Rendering (checkboxes or plain content)
+      - ✔️ Rendering (checkboxes or plain content)
       - Custom Context Menu
 3. Programmatically toggle item visibility based on the `type` property.
 
@@ -67,5 +67,41 @@ You can customise item based on their `type` property.
       </template>
   </tree-view>
 </template>
+
+```
+
+### Making Items Checkable Or Plain Content
+
+You can customise if items of a particular `type` are checkable or just plain contents.
+
+#### Example
+
+
+```ts
+<template>
+  <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView" />
+</template>
+
+<script lang='ts'>
+import { Vue, Component} from 'vue-property-decorator';
+
+import { TreeViewCreatedEventPayload, TreeViewItem } from '@/businessLogic/contracts/types';
+
+@Component
+export default class App extends Vue {
+  
+  // This method is called when the tree view is created (on Created hook). And allows you to customise
+  // items using the payload passed into the function.
+  customiseTreeView(treeCreatedEvent: TreeViewCreatedEventPayload) {
+    const customisations = treeCreatedEvent.itemCustomisations;
+    
+    customisations.makeItemsCheckable([".doc", ".excel", "media" ]);
+  }
+
+  treeViewNodes: TreeViewItem[] = [] // Populate tree items here.
+  ];
+}
+</script>
+
 
 ```
