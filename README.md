@@ -51,10 +51,10 @@ export interface TreeViewItem {
 ```
 
 ## How to use Advance
+
+### Custom Icon Based on Item Type.
+
 ![image](https://user-images.githubusercontent.com/39003759/121064978-27c80400-c7c0-11eb-887a-db4f29660c8b.png)
-
-
-### Customising Icons
 
 You can customise item based on their `type` property.
 
