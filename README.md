@@ -4,10 +4,10 @@ A light-weight library for management of hierachical content. Most solutions I f
 
 ## What it does.
 
-1. Hierachical rendering of content.
+1. :heavy_check_mark: Hierachical rendering of content.
 2. Event publishing/subscription from items
     - Item (un)checked event
-    - Item moved (drag-and-drop)
+    - :heavy_check_mark: Item moved (drag-and-drop)
     - Custom formating of items on the tree based on the `type` property. (Coming soon)
       - :heavy_check_mark: Customising Icons
       - Rendering (checkboxes or plain content)
