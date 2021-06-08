@@ -19,7 +19,9 @@ export default class App extends Vue {
 
   customiseTreeView(treeCreatedEvent: TreeViewCreatedEventPayload) {
     const customisations = treeCreatedEvent.itemCustomisations;
-    
+    const eventManager = treeCreatedEvent.eventManager;
+
+    eventManager.subscribeToItemChecked(".doc", (items) => console.log(items));
     customisations.makeItemsCheckable([".doc", ".excel", "media" ]);
   }
 
@@ -41,6 +43,20 @@ export default class App extends Vue {
           name: 'Cover Letter',
           id: '1203-1hdklsjdl-903923',
           type: '.doc',
+          parentId: '1203-390293-1hdklsjdl-903923',
+          checkedStatus: 'False'
+        },
+        {
+          name: 'Short Video',
+          id: '1203-1hmddklsjdl-903923',
+          type: 'media',
+          parentId: '1203-390293-1hdklsjdl-903923',
+          checkedStatus: 'False'
+        },
+        {
+          name: 'Excel Optimisation',
+          id: '1203-1hmddklsjdl-903jdu923',
+          type: '.excel',
           parentId: '1203-390293-1hdklsjdl-903923',
           checkedStatus: 'False'
         }
