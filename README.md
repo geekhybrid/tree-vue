@@ -126,12 +126,8 @@ export default class App extends Vue {
 
 To carter for advanced cases where `children` of the hierachical tree may be of different types. And you want to perform some further actions whenever something happens to them. You can subscribe for checked events of item types you may be interested in. And perform further actions.
 
+### Use case
 E.g A school has departments, and you want to check some departments and delete them.
 
-| School
-|------- Department A
-|------- Department B
-
+### Solution
 You can attach callbacks that notify you when departments have been checked on the tree.
-
-Example
