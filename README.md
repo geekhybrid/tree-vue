@@ -126,12 +126,56 @@ export default class App extends Vue {
 
 To carter for advanced cases where `children` of the hierachical tree may be of different types. And you want to perform some further actions whenever something happens to them. You can subscribe for checked events of item types you may be interested in. And perform further actions.
 
+### Use case
 E.g A school has departments, and you want to check some departments and delete them.
 
-| School
-|------- Department A
-|------- Department B
-
+### Solution
 You can attach callbacks that notify you when departments have been checked on the tree.
 
-Example
+### How to Use
+
+```html
+<template>    
+    <!-- Examples of how to subscribe for events -->
+    <tree-view :treeViewItems="schools" @created="customiseSchools" />
+</template>
+```
+```ts
+<script lang='ts'>
+import { Vue, Component} from 'vue-property-decorator';
+
+import { TreeViewCreatedEventPayload } from '@/businessLogic/contracts/types';
+
+@Component
+export default class App extends Vue {
+  customiseSchools(treeCreatedEvent: TreeViewCreatedEventPayload) {
+    const customisations = treeCreatedEvent.itemCustomisations;
+    const eventManager = treeCreatedEvent.eventManager;
+
+    eventManager.subscribeToItemChecked("department", (items) => console.log(items));
+    customisations.makeItemsCheckable(["department"]);
+  }
+  schools: TreeViewItem[] = [
+    {
+      id: '1',
+      type: 'school',
+      name: 'Vue School',
+      children: [
+        {
+          id: '2',
+          type: 'department',
+          name: 'Typescript Department',
+          parentId: '1'
+        },
+        {
+          id: '3',
+          type: 'department',
+          name: 'Open Source Department',
+          parentId: '1'
+        }
+      ]
+    }
+  ]
+}
+```
+
