@@ -52,6 +52,8 @@ export default class TreeViewItemView extends Vue {
 
     @Watch("item", { deep: true })
     onPropertyChanged(): void {
+        if (!this.isCheckable) return;
+        
         const checkboxEl = this.$refs.checkbox as HTMLInputElement;
         if (this.item.checkedStatus == 'Indeterminate') {
             checkboxEl.indeterminate = true;
