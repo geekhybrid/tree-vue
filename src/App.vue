@@ -1,12 +1,18 @@
 <template>
-  <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView">
-      <template v-slot:icon="treeViewItem">
-          <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type === 'folder'" >
-          <img src="@/assets/word.svg" alt="vue-logo" v-else-if="treeViewItem.type === '.doc'" height="18" width="18">
-          <img src="@/assets/excel.svg" alt="vue-logo" v-else-if="treeViewItem.type === '.excel'" height="18" width="18">
-          <img src="@/assets/playlist.svg" alt="vue-logo" v-else-if="treeViewItem.type === 'media'" height="18" width="18">
-      </template>
-  </tree-view>
+  <div style="display: flex">
+    <!-- Example of how to customise appearance of tree items -->
+    <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView">
+        <template v-slot:icon="treeViewItem">
+            <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type === 'folder'" >
+            <img src="@/assets/word.svg" alt="vue-logo" v-else-if="treeViewItem.type === '.doc'" height="18" width="18">
+            <img src="@/assets/excel.svg" alt="vue-logo" v-else-if="treeViewItem.type === '.excel'" height="18" width="18">
+            <img src="@/assets/playlist.svg" alt="vue-logo" v-else-if="treeViewItem.type === 'media'" height="18" width="18">
+        </template>
+    </tree-view>
+    
+    <!-- Examples of how to subscribe for events -->
+    <tree-view :treeViewItems="schools" @created="customiseSchools" />
+  </div>
 </template>
 
 <script lang='ts'>
@@ -20,10 +26,18 @@ export default class App extends Vue {
   customiseTreeView(treeCreatedEvent: TreeViewCreatedEventPayload) {
     const customisations = treeCreatedEvent.itemCustomisations;
     const eventManager = treeCreatedEvent.eventManager;
-
-    eventManager.subscribeToItemChecked(".doc", (items) => console.log(items));
+    
     customisations.makeItemsCheckable([".doc", ".excel", "media" ]);
   }
+
+  customiseSchools(treeCreatedEvent: TreeViewCreatedEventPayload) {
+    const customisations = treeCreatedEvent.itemCustomisations;
+    const eventManager = treeCreatedEvent.eventManager;
+
+    eventManager.subscribeToItemChecked("department", (items) => console.log(items));
+    customisations.makeItemsCheckable(["department"]);
+  }
+
 
   treeViewNodes: TreeViewItem[] = [
     {
@@ -123,5 +137,27 @@ export default class App extends Vue {
       ]
     }
   ];
+
+  schools: TreeViewItem[] = [
+    {
+      id: '1',
+      type: 'school',
+      name: 'Vue School',
+      children: [
+        {
+          id: '2',
+          type: 'department',
+          name: 'Typescript Department',
+          parentId: '1'
+        },
+        {
+          id: '3',
+          type: 'department',
+          name: 'Open Source Department',
+          parentId: '1'
+        }
+      ]
+    }
+  ]
 }
 </script>

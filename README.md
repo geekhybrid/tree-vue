@@ -13,6 +13,7 @@ A light-weight library for management of hierachical content. Most solutions I f
       - ✔️ Rendering (checkboxes or plain content)
       - Custom Context Menu depending on item type.
 5. Programmatically toggle item visibility based on the `type` property.
+6. Sorting items alphametically or grouping based on types
 
 ## What it looks like.
 
@@ -24,7 +25,9 @@ A light-weight library for management of hierachical content. Most solutions I f
 <template>
     <tree-view :treeViewItems="treeViewNodes" />
 </template>
+```
 
+```ts
 <script lang='ts'>
 import { Vue, Component} from 'vue-property-decorator';
 
@@ -80,6 +83,8 @@ You can customise item based on their `type` property.
 ```ts
     export interface TreeViewCreatedEventPayload {
         itemCustomisations: ItemTypeCustomisations;
+        eventManager: EventManager
+        ...
     }
 ```
 
@@ -116,3 +121,17 @@ export default class App extends Vue {
 #### Output
 
 ![image](https://user-images.githubusercontent.com/39003759/121091770-7090b480-c7e2-11eb-9ee5-e79351bd8ed8.png)
+
+### Listening to Items Checked
+
+To carter for advanced cases where `children` of the hierachical tree may be of different types. And you want to perform some further actions whenever something happens to them. You can subscribe for checked events of item types you may be interested in. And perform further actions.
+
+E.g A school has departments, and you want to check some departments and delete them.
+
+| School
+|------- Department A
+|------- Department B
+
+You can attach callbacks that notify you when departments have been checked on the tree.
+
+Example
