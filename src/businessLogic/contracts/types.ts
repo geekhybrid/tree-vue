@@ -14,6 +14,12 @@ export interface ItemTypeCustomisations {
 
 export interface TreeViewCreatedEventPayload {
     itemCustomisations: ItemTypeCustomisations;
+    eventManager: EventManager
+}
+
+export interface EventManager {
+    subscribeToItemChecked(type: string, callback: (item: TreeViewItem[]) => void): void;
+    subscribeToItemUnchecked(type: string, callback: (item: TreeViewItem[]) => void): void;
 }
 
 export interface Customisations {

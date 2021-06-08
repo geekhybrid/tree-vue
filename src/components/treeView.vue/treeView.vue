@@ -37,6 +37,7 @@ import {Vue, Component, Prop} from 'vue-property-decorator';
 import { TreeViewViewModel } from '@/businessLogic/treviewViewModel/treeViewViewModel'
 import { CheckedState, Customisations, ItemCheckedChangedEvent, TreeViewCreatedEventPayload, TreeViewItem } from '@/businessLogic/contracts/types';
 import { ItemCustomisations } from "@/businessLogic/itemCustomisations/itemCustomisations";
+import { eventManager } from '@/businessLogic/eventHub/explorerEventPublisher';
 
 @Component
 export default class TreeView extends Vue {
@@ -46,7 +47,8 @@ export default class TreeView extends Vue {
 
     created(): void {
         const payload: TreeViewCreatedEventPayload = {
-            itemCustomisations: this.itemCustomisations
+            itemCustomisations: this.itemCustomisations,
+            eventManager
         };
 
         this.$emit("created", payload);

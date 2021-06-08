@@ -1,20 +1,26 @@
-import { TreeViewItem } from "../contracts/types"
-import { cascadeStateToDescendants, findChildrenOfType } from "../hierachyTraversal/hierachyTraversal";
+import { EventManager, TreeViewItem } from "../contracts/types"
+import { findChildrenOfType } from "../hierachyTraversal/hierachyTraversal";
 
 const onCheckedSubscribers: {[type: string]: ((items: TreeViewItem[]) => void)[] } = {}
 const onUnCheckedSubscribers: {[type: string]: ((items: TreeViewItem[]) => void)[] } = {}
 
-export const eventHub = {
+export const eventManager: EventManager = {
     // Add subscriber for item hecked to collection of subscribers
     subscribeToItemChecked(type: string, callback: (item: TreeViewItem[]) => void): void {
+        onCheckedSubscribers[type] = onCheckedSubscribers[type] ?? [];
+
         onCheckedSubscribers[type].push(callback);
     },
 
     // Add subscriber for item unchecked to collection of subscribers
-    subscribeToItemUnchecked(type: string, callback: (item: TreeViewItem[]) => void) {
+    subscribeToItemUnchecked(type: string, callback: (item: TreeViewItem[]) => void): void {
+        onUnCheckedSubscribers[type] = onUnCheckedSubscribers[type] ?? [];
+
         onUnCheckedSubscribers[type].push(callback);
     },
-    
+}
+
+export const eventHub = {    
     // Publish events if any subscriber listening for item checked
     onItemChecked(item: TreeViewItem): void {
         if (item.type == 'folder') {
