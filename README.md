@@ -1,6 +1,6 @@
 # Tree-Vue
 
-A light-weight library for management of hierachical content. Most solutions I found did not offer the depth of flexibility I needed with the tree order than simply display the items. I decided to solve my problem and also give back. Feel free to log issues, I will jump on them at the slightest opportunity. 😊
+A light-weight library for management of hierachical content. Most solutions I found did not offer the depth of flexibility I needed with the tree. I decided to solve my problem and also give back to the Vue community. Feel free to log issues, I will jump on them at the slightest opportunity. 😊
 
 ## What it does.
 
