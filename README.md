@@ -6,13 +6,13 @@ A light-weight library for management of hierachical content. Most solutions I f
 
 1. :heavy_check_mark: Hierachical rendering of content.
 2. Event publishing/subscription from items
-    - Item (un)checked event
-    - :heavy_check_mark: Item moved (drag-and-drop)
-    - Custom formating of items on the tree based on the `type` property. (Coming soon)
+    - Subscribing to items checked event (based on type)
+3. :heavy_check_mark: Moving Items between folders (drag-and-drop)
+4. Custom formating of items on the tree based on the `type` property. (Coming soon)
       - :heavy_check_mark: Customising Icons
       - ✔️ Rendering (checkboxes or plain content)
-      - Custom Context Menu
-3. Programmatically toggle item visibility based on the `type` property.
+      - Custom Context Menu depending on item type.
+5. Programmatically toggle item visibility based on the `type` property.
 
 ## What it looks like.
 
@@ -70,18 +70,27 @@ You can customise item based on their `type` property.
 
 ```
 
-### Making Items Checkable Or Plain Content
+### Making Items Checkable Or Plain TreeView Item
 
-You can customise if items of a particular `type` are checkable or just plain contents.
+`Tree-vue` supports 2-major types of tree items. Checkable items or plain items. You can set your preferences for a particular `type`. To do so listen to the createdEvent of the `tree-view` component. 
+
+
+#### Schema of CreatedEvent Payload
+
+```ts
+    export interface TreeViewCreatedEventPayload {
+        itemCustomisations: ItemTypeCustomisations;
+    }
+```
 
 #### Example
 
-
-```ts
+```html
 <template>
   <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView" />
 </template>
-
+```
+```ts
 <script lang='ts'>
 import { Vue, Component} from 'vue-property-decorator';
 
@@ -90,8 +99,8 @@ import { TreeViewCreatedEventPayload, TreeViewItem } from '@/businessLogic/contr
 @Component
 export default class App extends Vue {
   
-  // This method is called when the tree view is created (on Created hook). And allows you to customise
-  // items using the payload passed into the function.
+  // This method is called when the tree view is created (on Created hook). And allows you to customise the tree-view items using the payload passed into the function.
+
   customiseTreeView(treeCreatedEvent: TreeViewCreatedEventPayload) {
     const customisations = treeCreatedEvent.itemCustomisations;
     
@@ -107,4 +116,3 @@ export default class App extends Vue {
 #### Output
 
 ![image](https://user-images.githubusercontent.com/39003759/121091770-7090b480-c7e2-11eb-9ee5-e79351bd8ed8.png)
-
