@@ -6,7 +6,7 @@ A light-weight library for management of hierachical content. Most solutions I f
 
 1. :heavy_check_mark: Hierachical rendering of content.
 2. Event publishing/subscription from items
-    - Subscribing to items checked event (based on type)
+    - ✔️ Subscribing to items checked event (based on type)
 3. :heavy_check_mark: Moving Items between folders (drag-and-drop)
 4. Custom formating of items on the tree based on the `type` property. (Coming soon)
       - :heavy_check_mark: Customising Icons
@@ -131,3 +131,51 @@ E.g A school has departments, and you want to check some departments and delete 
 
 ### Solution
 You can attach callbacks that notify you when departments have been checked on the tree.
+
+### How to Use
+
+```html
+<template>    
+    <!-- Examples of how to subscribe for events -->
+    <tree-view :treeViewItems="schools" @created="customiseSchools" />
+</template>
+```
+```ts
+<script lang='ts'>
+import { Vue, Component} from 'vue-property-decorator';
+
+import { TreeViewCreatedEventPayload } from '@/businessLogic/contracts/types';
+
+@Component
+export default class App extends Vue {
+  customiseSchools(treeCreatedEvent: TreeViewCreatedEventPayload) {
+    const customisations = treeCreatedEvent.itemCustomisations;
+    const eventManager = treeCreatedEvent.eventManager;
+
+    eventManager.subscribeToItemChecked("department", (items) => console.log(items));
+    customisations.makeItemsCheckable(["department"]);
+  }
+  schools: TreeViewItem[] = [
+    {
+      id: '1',
+      type: 'school',
+      name: 'Vue School',
+      children: [
+        {
+          id: '2',
+          type: 'department',
+          name: 'Typescript Department',
+          parentId: '1'
+        },
+        {
+          id: '3',
+          type: 'department',
+          name: 'Open Source Department',
+          parentId: '1'
+        }
+      ]
+    }
+  ]
+}
+```
+
