@@ -50,7 +50,7 @@ export default class TreeViewItemView extends Vue {
         else return false;
     }
 
-    @Watch("item", { deep: true })
+    @Watch("item")
     onPropertyChanged(): void {
         if (!this.isCheckable) return;
         
