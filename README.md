@@ -6,7 +6,7 @@ A light-weight library for management of hierachical content. Most solutions I f
 
 1. :heavy_check_mark: Hierachical rendering of content.
 2. Event publishing/subscription from items
-    - Subscribing to items checked event (based on type)
+    - ✔️ Subscribing to items checked event (based on type)
 3. :heavy_check_mark: Moving Items between folders (drag-and-drop)
 4. Custom formating of items on the tree based on the `type` property. (Coming soon)
       - :heavy_check_mark: Customising Icons
