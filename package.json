@@ -1,23 +1,30 @@
 {
   "name": "v-tree-vue",
-  "version": "0.1.0",
+  "version": "0.1.5",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geekhybrid/tree-vue.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit --watch",
     "lint": "vue-cli-service lint"
   },
+  "keywords": [
+    "Vue",
+    "TreeView",
+    "Hierachical",
+    "Recursive",
+    "Tree"
+  ],
+  "author": "Enyi Francis Hocaha",
   "dependencies": {
-    "axios": "^0.21.1",
-    "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
-    "vue-property-decorator": "^9.1.2",
-    "vue-router": "^3.2.0",
-    "vue-tippy": "^4.10.1",
-    "vuex": "^3.4.0",
-    "vuex-typescript": "^3.0.2"
+    "vue-property-decorator": "^9.1.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
