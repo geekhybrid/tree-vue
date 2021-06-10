@@ -22,6 +22,18 @@ export interface EventManager {
     subscribeToItemUnchecked(type: string, callback: (item: TreeViewItem[]) => void): void;
 }
 
+export interface TreeViewViewModel  {
+    loadNodes(nodes: TreeViewItem[]): void;
+    getNodes(): { [id: string]: TreeViewItem };
+    removeTreeViewItem(id: string): boolean;
+    removeFromParentNode(itemToRemove: TreeViewItem): void;
+    removeChildNodes(node: TreeViewItem): void;
+    addTreeViewItem(TreeViewItem: TreeViewItem): void;
+    checkedStatusChanged(item: TreeViewItem): void;
+    setSelectionMode(mode: SelectionMode): void;
+    selectedItems: TreeViewItem[];
+}
+
 export interface Customisations {
     isCheckable?: boolean;
 }
@@ -32,3 +44,4 @@ export interface ItemCheckedChangedEvent {
 }
 
 export type CheckedState = 'True' | 'False' | 'Indeterminate';
+export type SelectionMode = 'Single' | 'Multiple';

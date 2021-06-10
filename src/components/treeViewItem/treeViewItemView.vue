@@ -15,14 +15,8 @@
 </template>
 
 <script lang='ts'>
-import { TreeViewViewModel } from '@/businessLogic/treviewViewModel/treeViewViewModel';
-import { Customisations, ItemCheckedChangedEvent, TreeViewItem } from '@/businessLogic/contracts/types';
+import { Customisations, ItemCheckedChangedEvent, TreeViewItem, TreeViewViewModel } from '@/businessLogic/contracts/types';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-import VueTippy, { TippyComponent } from "vue-tippy";
-import "tippy.js/themes/light.css";
-
-Vue.use(VueTippy);
-Vue.component("tippy", TippyComponent);
 
 @Component
 export default class TreeViewItemView extends Vue {
