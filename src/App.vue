@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex">
     <!-- Example of how to customise appearance of tree items -->
-    <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView" selectionMode='Multiple'>
+    <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView" :hideGuideLines="true">
         <template v-slot:icon="treeViewItem">
             <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type === 'folder'" >
             <img src="@/assets/word.svg" alt="vue-logo" v-else-if="treeViewItem.type === '.doc'" height="18" width="18">

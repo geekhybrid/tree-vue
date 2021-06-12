@@ -10,6 +10,7 @@
                 @dragleave.stop="removeHoverClass">
 
             <div class="d-flex align-items-center">
+                <div class="horizontal-dashes" v-if="treeViewItem.parentId && hideGuideLines !== false" />
                 <span class="chevron-right" v-if="treeViewItem.children && treeViewItem.children.length > 0" @click="toggleVisiblity(treeViewItem.id, $event)"></span>
                 <div class="icon-area">
                     <slot name="icon" v-bind="treeViewItem">
@@ -20,7 +21,7 @@
                                :customisations="getItemCustomisation(treeViewItem.type)" />
             </div>
             
-            <div class="node-child hide">
+            <div class="node-child hide" :class="{'hide-guidelines': hideGuideLines}">
                 <tree-view :treeViewItems="treeViewItem.children" nested
                     v-if="treeViewItem.children && treeViewItem.children.length > 0" >
                     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="props">
@@ -33,17 +34,20 @@
 </template>
 
 <script lang='ts'>
-import {Vue, Component, Prop} from 'vue-property-decorator';
-import { TreeViewViewModel } from '@/businessLogic/treviewViewModel/treeViewViewModel'
-import { CheckedState, Customisations, ItemCheckedChangedEvent, TreeViewCreatedEventPayload, TreeViewItem } from '@/businessLogic/contracts/types';
+import {Vue, Component, Prop, Watch} from 'vue-property-decorator';
+import { TreeViewModel } from '@/businessLogic/treviewViewModel/treeViewViewModel'
+import { CheckedState, Customisations, ItemCheckedChangedEvent, SelectionMode, TreeViewCreatedEventPayload, TreeViewItem } from '@/businessLogic/contracts/types';
 import { ItemCustomisations } from "@/businessLogic/itemCustomisations/itemCustomisations";
 import { eventManager } from '@/businessLogic/eventHub/explorerEventPublisher';
 
 @Component
 export default class TreeView extends Vue {
     @Prop({ default: () => { return [] }}) treeViewItems!: TreeViewItem[];
-    viewModel = TreeViewViewModel;
     @Prop({ default: 'Multiple' }) selectionMode!: SelectionMode;
+    @Prop({ default: false }) hideGuideLines!: boolean;
+    @Prop({ default: true }) showSearch!: boolean;
+
+    viewModel = TreeViewModel;
     itemCustomisations = ItemCustomisations;
 
     created(): void {
@@ -51,7 +55,6 @@ export default class TreeView extends Vue {
             itemCustomisations: this.itemCustomisations,
             eventManager
         };
-
         this.$emit("created", payload);
     }
 
@@ -156,7 +159,12 @@ ul {
 
 .icon-area {
     width: 16px;
-    margin-right: .7em;
+    margin-right: 0.3em;
+}
+
+.horizontal-dashes {
+    width: 1em;
+    border-top: 1px dashed rgb(192, 192, 192);
 }
 
 .node-name {
@@ -165,14 +173,17 @@ ul {
 }
 
 .node-child {
-    margin-left: 32px !important;
-    padding-left: 10px;
+    margin-left: 35px !important;
     border-left: 1px dashed rgb(192, 192, 192);
     display: block;
 }
 
 .hide {
     display: none;
+}
+
+.hide-guidelines {
+    border-left: none !important;
 }
 
 .chevron-right {
@@ -202,6 +213,6 @@ ul {
     border-right: 2px solid;
     transform: rotate(-45deg);
     right: 6px;
-    top: 4px
+    top: 5px
 }
 </style>
