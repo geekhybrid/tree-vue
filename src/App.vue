@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex">
     <!-- Example of how to customise appearance of tree items -->
-    <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView">
+    <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView" selectionMode='Multiple'>
         <template v-slot:icon="treeViewItem">
             <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type === 'folder'" >
             <img src="@/assets/word.svg" alt="vue-logo" v-else-if="treeViewItem.type === '.doc'" height="18" width="18">
@@ -11,7 +11,7 @@
     </tree-view>
     
     <!-- Examples of how to subscribe for events -->
-    <tree-view :treeViewItems="schools" @created="customiseSchools" />
+    <!-- <tree-view :treeViewItems="schools" @created="customiseSchools" selectionMode='Multiple' /> -->
   </div>
 </template>
 
@@ -23,20 +23,18 @@ import { TreeViewCreatedEventPayload, TreeViewItem } from '@/businessLogic/contr
 @Component
 export default class App extends Vue {
 
-  customiseTreeView(treeCreatedEvent: TreeViewCreatedEventPayload) {
+  customiseTreeView(treeCreatedEvent: TreeViewCreatedEventPayload): void {
     const customisations = treeCreatedEvent.itemCustomisations;
-    const eventManager = treeCreatedEvent.eventManager;
-    
     customisations.makeItemsCheckable([".doc", ".excel", "media" ]);
   }
 
-  customiseSchools(treeCreatedEvent: TreeViewCreatedEventPayload) {
-    const customisations = treeCreatedEvent.itemCustomisations;
-    const eventManager = treeCreatedEvent.eventManager;
+  // customiseSchools(treeCreatedEvent: TreeViewCreatedEventPayload): void {
+  //   const customisations = treeCreatedEvent.itemCustomisations;
+  //   const eventManager = treeCreatedEvent.eventManager;
 
-    eventManager.subscribeToItemChecked("department", (items) => console.log(items));
-    customisations.makeItemsCheckable(["department"]);
-  }
+  //   eventManager.subscribeToItemChecked("department", (items) => console.log(items));
+  //   customisations.makeItemsCheckable(["department"]);
+  // }
 
 
   treeViewNodes: TreeViewItem[] = [
@@ -138,26 +136,26 @@ export default class App extends Vue {
     }
   ];
 
-  schools: TreeViewItem[] = [
-    {
-      id: '1',
-      type: 'school',
-      name: 'Vue School',
-      children: [
-        {
-          id: '2',
-          type: 'department',
-          name: 'Typescript Department',
-          parentId: '1'
-        },
-        {
-          id: '3',
-          type: 'department',
-          name: 'Open Source Department',
-          parentId: '1'
-        }
-      ]
-    }
-  ]
+  // schools: TreeViewItem[] = [
+  //   {
+  //     id: '1',
+  //     type: 'school',
+  //     name: 'Vue School',
+  //     children: [
+  //       {
+  //         id: '2',
+  //         type: 'department',
+  //         name: 'Typescript Department',
+  //         parentId: '1'
+  //       },
+  //       {
+  //         id: '3',
+  //         type: 'department',
+  //         name: 'Open Source Department',
+  //         parentId: '1'
+  //       }
+  //     ]
+  //   }
+  // ]
 }
 </script>

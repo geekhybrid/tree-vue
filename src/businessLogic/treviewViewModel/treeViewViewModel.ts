@@ -3,13 +3,6 @@ import { eventHub } from "@/businessLogic/eventHub/explorerEventPublisher";
 import { cascadeStateToDescendants, flattenNodes } from "../hierachyTraversal/hierachyTraversal";
 
 let flattenedNodesLookUp: { [id: string]: TreeViewItem } = {};
-let selectionMode: SelectionMode = 'Multiple';
-
-// This stores the collection of selected items.
-// Selection could have been through 'Click-to-select' or done through
-// Checkbox `isChecked` property.
-
-let selectedItems: TreeViewItem[] = [];
 
 export const notifyParentOfSelection = (item: TreeViewItem): void => {
     const parentId = item.parentId as string;
@@ -26,7 +19,6 @@ export const notifyParentOfSelection = (item: TreeViewItem): void => {
 
     if (isEveryChildChecked) {
         parent.checkedStatus = 'True';
-        selectedItems.push(parent);
     }
     else if (isAnyIntermediate || (hasAnUncheckedChild && hasACheckedChild)) {
         parent.checkedStatus = 'Indeterminate';
@@ -49,14 +41,10 @@ export const TreeViewModel: TreeViewViewModel = {
     checkedStatusChanged(item: TreeViewItem): void {
         if (item.checkedStatus == 'True') 
         {
-            selectedItems.push(item);
             eventHub.onItemChecked(item);
         }
         else 
         {
-            const index = selectedItems.indexOf(item);
-            if (index > -1) selectedItems.splice(index, 1);
-
             eventHub.onItemUnChecked(item);
         }
 
@@ -111,13 +99,8 @@ export const TreeViewModel: TreeViewViewModel = {
     },
 
     setSelectionMode(mode: SelectionMode): void {
-        selectionMode = mode;
-        selectedItems.forEach(item => {
-            item.checkedStatus = 'False';
-        });
-
-        selectedItems = [];
+        eventHub.setSelectionMode(mode);
     },
 
-    selectedItems
+    selectedItems: eventHub.selectedItems
 }
