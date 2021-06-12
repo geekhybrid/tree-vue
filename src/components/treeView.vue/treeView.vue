@@ -43,6 +43,7 @@ import { eventManager } from '@/businessLogic/eventHub/explorerEventPublisher';
 export default class TreeView extends Vue {
     @Prop({ default: () => { return [] }}) treeViewItems!: TreeViewItem[];
     viewModel = TreeViewViewModel;
+    @Prop({ default: 'Multiple' }) selectionMode!: SelectionMode;
     itemCustomisations = ItemCustomisations;
 
     created(): void {
@@ -109,6 +110,7 @@ export default class TreeView extends Vue {
     }
 
     mounted(): void {
+        this.viewModel.setSelectionMode(this.selectionMode);
         const isRootNode = !('nested' in this.$attrs);
         if (isRootNode) {
             this.viewModel.loadNodes(this.treeViewItems);
@@ -123,6 +125,11 @@ export default class TreeView extends Vue {
         
         target.classList.toggle('rotate-90');
         element[0].classList.toggle('hide');
+    }
+
+    @Watch("selectionMode")
+    onSelectionModeChanged(newMode: SelectionMode): void {
+        this.viewModel.setSelectionMode(newMode);
     }
 }
 </script>

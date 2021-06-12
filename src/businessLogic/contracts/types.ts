@@ -14,12 +14,21 @@ export interface ItemTypeCustomisations {
 
 export interface TreeViewCreatedEventPayload {
     itemCustomisations: ItemTypeCustomisations;
-    eventManager: EventManager
+    eventManager: EventManager;
 }
 
 export interface EventManager {
     subscribeToItemChecked(type: string, callback: (item: TreeViewItem[]) => void): void;
     subscribeToItemUnchecked(type: string, callback: (item: TreeViewItem[]) => void): void;
+}
+
+export interface EventHub {
+    onItemChecked(item: TreeViewItem): void;
+    onItemUnChecked(item: TreeViewItem): void;
+    onFolderChecked(folder: TreeViewItem): void
+    onFolderUnChecked(folder: TreeViewItem): void;
+    setSelectionMode(mode: string): void;
+    readonly selectedItems: TreeViewItem[];
 }
 
 export interface TreeViewViewModel  {
@@ -32,6 +41,7 @@ export interface TreeViewViewModel  {
     checkedStatusChanged(item: TreeViewItem): void;
     setSelectionMode(mode: SelectionMode): void;
     selectedItems: TreeViewItem[];
+    readonly selectedItems: TreeViewItem[];
 }
 
 export interface Customisations {
