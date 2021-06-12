@@ -44,7 +44,7 @@ export default class TreeViewItemView extends Vue {
         else return false;
     }
 
-    @Watch("item")
+    @Watch("item.checkedStatus")
     onPropertyChanged(): void {
         if (!this.isCheckable) return;
         
@@ -58,7 +58,7 @@ export default class TreeViewItemView extends Vue {
     }
 
     private setCheckedState() {
-       this.isChecked = this.item.checkedStatus == 'True' ? true : false;
+        this.isChecked = this.item.checkedStatus == 'True' ? true : false;
     }
 }
 </script>
