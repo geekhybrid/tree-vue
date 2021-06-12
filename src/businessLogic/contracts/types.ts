@@ -12,6 +12,22 @@ export interface ItemTypeCustomisations {
     typeCustomisations(): {[type: string]: Customisations };
 }
 
+export interface DefaultBehaviors {
+    // Allow customisation of items that can be renamed on the tree.
+    enableRenaming(type: string): void;
+    // Allow customisation of items that can be deleted on the tree.
+    enableDeleting(type: string): void;
+    // Allow registration of handler to be called when an item of a particular type has been deleted.
+    registerItemDeletedHandler(type: string, callback: (item: TreeViewItem) => Promise<TreeViewItem>): void;
+    // Allow registration of a handler to be called when an item of a particular type has been renamed.
+    registerItemRenamedHandler(type: string, callback: (renamedItem: TreeViewItem) => Promise<TreeViewItem>): void;
+    // Allow registration of a handler to be called to verify if a drag-and-drop move operation is valid.
+    registerItemCanMoveHandler(canItemMoveCallBack: (movingItem: TreeViewItem, destinationItem: TreeViewItem) => Promise<boolean>): void;
+    // Allow registration of a handler to be called when a move operation is succesful. The moved item property will contain
+    // the information of the parentID of it's new parent or undefined if it was moved to the root directory.
+    registerItemMovedHandler(callBack: (movedItem: TreeViewItem) => Promise<TreeViewItem>): void;
+}
+
 export interface TreeViewCreatedEventPayload {
     itemCustomisations: ItemTypeCustomisations;
     eventManager: EventManager;
@@ -40,7 +56,6 @@ export interface TreeViewViewModel  {
     addTreeViewItem(TreeViewItem: TreeViewItem): void;
     checkedStatusChanged(item: TreeViewItem): void;
     setSelectionMode(mode: SelectionMode): void;
-    selectedItems: TreeViewItem[];
     readonly selectedItems: TreeViewItem[];
 }
 
