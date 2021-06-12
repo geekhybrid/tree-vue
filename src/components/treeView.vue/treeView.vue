@@ -10,7 +10,7 @@
                 @dragleave.stop="removeHoverClass">
 
             <div class="d-flex align-items-center">
-                <div class="horizontal-dashes" v-if="treeViewItem.parentId && hideGuideLines !== false" />
+                <div class="horizontal-dashes" v-if="treeViewItem.parentId && hideGuideLines === false" />
                 <span class="chevron-right" v-if="treeViewItem.children && treeViewItem.children.length > 0" @click="toggleVisiblity(treeViewItem.id, $event)"></span>
                 <div class="icon-area">
                     <slot name="icon" v-bind="treeViewItem">
@@ -22,7 +22,7 @@
             </div>
             
             <div class="node-child hide" :class="{'hide-guidelines': hideGuideLines}">
-                <tree-view :treeViewItems="treeViewItem.children" nested
+                <tree-view :treeViewItems="treeViewItem.children" nested :hideGuideLines="hideGuideLines"
                     v-if="treeViewItem.children && treeViewItem.children.length > 0" >
                     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="props">
                         <slot :name="slot" v-bind="props"/>
