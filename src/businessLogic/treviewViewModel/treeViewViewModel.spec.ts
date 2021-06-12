@@ -40,7 +40,9 @@ describe('TreeViewModel', () => {
         child2.checkedStatus = 'False';
         parentFolder.children = [ child1, child2 ]
         TreeViewModel.loadNodes([parentFolder]);
-        TreeViewModel.selectedItems = [];
+        while(TreeViewModel.selectedItems.length != 0) {
+            TreeViewModel.selectedItems.pop();
+        }
     });
 
     it('checkedStatusChanged() should set parentFolder to true if all children are checked', () => {
@@ -68,13 +70,13 @@ describe('TreeViewModel', () => {
         expect(parentFolder.checkedStatus).toBe('False');
     });
 
-    it('notifyParentOfSelection() should set parentFolder to True & add to selectedItems if any child is checked', () => {
+    it('notifyParentOfSelection() should set parentFolder to Indeterminate & add to selectedItems if any child is checked', () => {
         child1.checkedStatus = 'True';
         child2.checkedStatus = 'False';
 
         TreeViewModel.checkedStatusChanged(child1);
         expect(TreeViewModel.selectedItems).toHaveLength(1);
-        expect(parentFolder.checkedStatus).toBe('False');
+        expect(parentFolder.checkedStatus).toBe('Indeterminate');
     });
 
     it('removeTreeViewItem() should remove nodes from flatenedLookup', () => {

@@ -22,4 +22,27 @@ describe("eventPublisher", () => {
 
         expect(subscriberCallBack).toBeCalledWith([expectedCheckedItem]);
     });
+
+    it("onItemChecked() should add item to selectedItems collection", () => {
+        const expectedSelectedItem: TreeViewItem = {
+            id: '1',
+            name: 'Test',
+            type: 'test'
+        }
+        eventHub.onItemChecked(expectedSelectedItem);
+        expect(eventHub.selectedItems.pop()).toBe(expectedSelectedItem);
+    });
+
+    it("onItemUnchecked() should remove item from selectedItems collection", () => {
+        const expectedSelectedItem: TreeViewItem = {
+            id: '1',
+            name: 'Test',
+            type: 'test'
+        }
+
+        eventHub.selectedItems.push(expectedSelectedItem);
+        eventHub.onItemUnChecked(expectedSelectedItem);
+
+        expect(eventHub.selectedItems.indexOf(expectedSelectedItem)).toBe(-1);
+    });
 });
