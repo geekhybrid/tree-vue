@@ -5,19 +5,16 @@ A light-weight library for management of hierachical content. Most solutions I f
 ## What it does.
 
 1. :heavy_check_mark: Hierachical rendering of content.
-2. Event publishing/subscription from items
-    - ✔️ Subscribing to items checked event (based on type)
+2. ✔️ Subscribing to items checked event (based on type)
 3. :heavy_check_mark: Moving Items between folders (drag-and-drop)
-4. Custom formating of items on the tree based on the `type` property.
-      - :heavy_check_mark: Customising Icons
-      - ✔️ Rendering (checkboxes or plain content)
-
-5. Programmatically toggle item visibility based on the `type` property.
-6. Sorting items alphametically or grouping based on types
-7. Disabling and Enabling Item
-8. Double clicking to rename item
-9. Programmatically determining what item can be dragged into another item.
-10. Custom Context Menu depending on item type.
+4. :heavy_check_mark: Customising Item Rendering based on item type
+5. ✔️ Rendering selectable items like checkboxes or plain content
+6. Programmatically toggle item visibility based on the `type` property.
+7. Sorting items alphametically or grouping based on types
+8. Disabling and Enabling Item
+9. Double clicking to rename item
+10. Programmatically determining what item can be dragged into another item.
+11. Custom Context Menu depending on item type.
 
 ## What it looks like.
 
@@ -197,7 +194,7 @@ export default class App extends Vue {
 Out-of-the-box, `v-tree-vue` ships with default behaviors like double clicking an item to rename, pushing the `DEL` key to delete and moving (drag-and-drop) items into new locations. However, this is totally customisable. The default command API exposes the following configurations:
 
 ```ts
-export interface DefaultBehaviors {
+export interface ItemBehavior {
     // Allow customisation of items that can be renamed on the tree.
     enableRenaming(type: string): void;
     // Allow customisation of items that can be deleted on the tree.

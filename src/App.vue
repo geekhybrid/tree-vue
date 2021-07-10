@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex">
     <!-- Example of how to customise appearance of tree items -->
-    <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView" :hideGuideLines="true">
+    <tree-view :treeViewItems="treeViewNodes" @created="customiseTreeView" >
         <template v-slot:icon="treeViewItem">
             <img src="@/assets/folder.svg" alt="folder" v-if="treeViewItem.type === 'folder'" >
             <img src="@/assets/word.svg" alt="vue-logo" v-else-if="treeViewItem.type === '.doc'" height="18" width="18">
@@ -25,6 +25,14 @@ export default class App extends Vue {
 
   customiseTreeView(treeCreatedEvent: TreeViewCreatedEventPayload): void {
     const customisations = treeCreatedEvent.itemCustomisations;
+    
+    const folderRenameHandler = (folderItem: TreeViewItem) => new Promise<TreeViewItem>((accept) => {
+      console.log(folderItem);
+    });
+
+    customisations.registerDragAndDropValidator(() => true);
+    customisations.registerItemRenamedHandler('folder', folderRenameHandler);
+    
     customisations.makeItemsCheckable([".doc", ".excel", "media" ]);
   }
 
@@ -32,7 +40,7 @@ export default class App extends Vue {
   //   const customisations = treeCreatedEvent.itemCustomisations;
   //   const eventManager = treeCreatedEvent.eventManager;
 
-  //   eventManager.subscribeToItemChecked("department", (items) => console.log(items));
+  //   eventManager.subscribeToItemChecked("department", (items) =>   g(items));
   //   customisations.makeItemsCheckable(["department"]);
   // }
 

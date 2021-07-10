@@ -8,24 +8,34 @@ export interface TreeViewItem {
 }
 
 export interface ItemTypeCustomisations {
+    isDropValid(droppedNode: TreeViewItem, dropHost: TreeViewItem): boolean;
     makeItemsCheckable(types: string[]): void;
-    typeCustomisations(): {[type: string]: Customisations };
+    registerItemDeletedHandler(type: string, callback: (item: TreeViewItem) => Promise<boolean>): void;
+    registerItemRenamedHandler(type: string, callback: (renamedItem: TreeViewItem) => Promise<TreeViewItem>): void;
+    registerDragAndDropValidator(canItemMoveCallBack: (movingItem: TreeViewItem, destinationItem: TreeViewItem) => boolean): void;
+    registerItemMovedHandler(callBack: (movedItem: TreeViewItem) => Promise<TreeViewItem>): void;
+    
+    registerAnyItemDeleted(callback: (item: TreeViewItem) => Promise<boolean>): void;
+    registerAnyItemRenamed(callback: (item: TreeViewItem) => Promise<TreeViewItem>): void;
+    registerAnyItemDragAndDrop(): void;
+    
+    disableDragAndDrop(): void;
+    getCustomisation(type: string): Customisations;
+    getRenameHandler(type: string): (item: TreeViewItem) => Promise<TreeViewItem>;
 }
 
-export interface DefaultBehaviors {
-    // Allow customisation of items that can be renamed on the tree.
-    enableRenaming(type: string): void;
-    // Allow customisation of items that can be deleted on the tree.
-    enableDeleting(type: string): void;
-    // Allow registration of handler to be called when an item of a particular type has been deleted.
-    registerItemDeletedHandler(type: string, callback: (item: TreeViewItem) => Promise<TreeViewItem>): void;
-    // Allow registration of a handler to be called when an item of a particular type has been renamed.
-    registerItemRenamedHandler(type: string, callback: (renamedItem: TreeViewItem) => Promise<TreeViewItem>): void;
-    // Allow registration of a handler to be called to verify if a drag-and-drop move operation is valid.
-    registerItemCanMoveHandler(canItemMoveCallBack: (movingItem: TreeViewItem, destinationItem: TreeViewItem) => Promise<boolean>): void;
-    // Allow registration of a handler to be called when a move operation is succesful. The moved item property will contain
-    // the information of the parentID of it's new parent or undefined if it was moved to the root directory.
-    registerItemMovedHandler(callBack: (movedItem: TreeViewItem) => Promise<TreeViewItem>): void;
+export interface Customisations {
+    canRename?: boolean;
+    isCheckable?: boolean;
+}
+
+export interface EditableItem {
+    begin(): void;
+    end(): void;
+}
+
+export interface RenameItemStartedEventArgs {
+    item: EditableItem;
 }
 
 export interface TreeViewCreatedEventPayload {
@@ -57,10 +67,6 @@ export interface TreeViewViewModel  {
     checkedStatusChanged(item: TreeViewItem): void;
     setSelectionMode(mode: SelectionMode): void;
     readonly selectedItems: TreeViewItem[];
-}
-
-export interface Customisations {
-    isCheckable?: boolean;
 }
 
 export interface ItemCheckedChangedEvent {

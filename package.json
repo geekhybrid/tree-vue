@@ -1,6 +1,6 @@
 {
   "name": "v-tree-vue",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "ISC",
   "repository": {
     "type": "git",
@@ -17,7 +17,9 @@
     "TreeView",
     "Hierachical",
     "Recursive",
-    "Tree"
+    "Tree",
+    "Typescript",
+    "Flexible TreeView"
   ],
   "author": "Enyi Francis Hocaha",
   "dependencies": {
@@ -50,10 +52,5 @@
     "sass-loader": "^8.0.2",
     "typescript": "~4.1.5",
     "vue-template-compiler": "^2.6.11"
-  },
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/geekhybrid/tree-vue.git"
   }
 }

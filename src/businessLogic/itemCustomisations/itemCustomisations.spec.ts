@@ -7,9 +7,8 @@ describe("ItemCustomisation", () => {
         const expectedTypes = [".docs", ".excel"];
         customisations.makeItemsCheckable(expectedTypes);
 
-        const customisedTypes = customisations.typeCustomisations();
-        expectedTypes.forEach(type => {
-            expect(customisedTypes[type].isCheckable).toBe(true);
-        })
+        [".docs", ".excel"].forEach(type => {
+            expect(customisations.getCustomisation(type).isCheckable).toBe(true);
+        });
     });
 });

@@ -18,7 +18,7 @@
                     </slot>
                 </div>
                 <treeview-item :item="treeViewItem" :treeViewModel="viewModel" @changed="updateItemCheckedStatus"
-                               :customisations="getItemCustomisation(treeViewItem.type)" />
+                               :customisations="itemCustomisations" />
             </div>
             
             <div class="node-child hide" :class="{'hide-guidelines': hideGuideLines}">
@@ -36,7 +36,13 @@
 <script lang='ts'>
 import {Vue, Component, Prop, Watch} from 'vue-property-decorator';
 import { TreeViewModel } from '@/businessLogic/treviewViewModel/treeViewViewModel'
-import { CheckedState, Customisations, ItemCheckedChangedEvent, SelectionMode, TreeViewCreatedEventPayload, TreeViewItem } from '@/businessLogic/contracts/types';
+import { 
+    CheckedState,
+    ItemCheckedChangedEvent, 
+    SelectionMode,
+    TreeViewCreatedEventPayload,
+    TreeViewItem 
+} from '@/businessLogic/contracts/types';
 import { ItemCustomisations } from "@/businessLogic/itemCustomisations/itemCustomisations";
 import { eventManager } from '@/businessLogic/eventHub/explorerEventPublisher';
 
@@ -56,10 +62,6 @@ export default class TreeView extends Vue {
             eventManager
         };
         this.$emit("created", payload);
-    }
-
-    getItemCustomisation(type: string): Customisations {
-        return this.itemCustomisations.typeCustomisations()[type];
     }
 
     updateItemCheckedStatus(checkedEvent: ItemCheckedChangedEvent): void {
@@ -94,20 +96,20 @@ export default class TreeView extends Vue {
         }
     }
 
-    onDropNode(node: TreeViewItem, event: DragEvent): void {
+    onDropNode(dropHost: TreeViewItem, event: DragEvent): void {
         if (event.dataTransfer) {
             const droppedNode = JSON.parse(event.dataTransfer.getData('text/plain')) as TreeViewItem;
 
             this.removeHoverClass(event)
 
-            if (droppedNode.id === node.id) {
+            if (droppedNode.id === dropHost.id) {
                 return
             }
-
+            
+            if (!ItemCustomisations.isDropValid(droppedNode, dropHost)) return;
+                
             this.viewModel.removeTreeViewItem(droppedNode.id);
-
-            droppedNode.parentId = node.id;
-
+            droppedNode.parentId = dropHost.id;
             this.viewModel.addTreeViewItem(droppedNode);
         }
     }
