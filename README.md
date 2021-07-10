@@ -9,10 +9,10 @@ A light-weight library for management of hierachical content. Most solutions I f
 3. :heavy_check_mark: Moving Items between folders (drag-and-drop)
 4. :heavy_check_mark: Customising Item Rendering based on item type
 5. ✔️ Rendering selectable items like checkboxes or plain content
-6. Programmatically toggle item visibility based on the `type` property.
-7. Sorting items alphametically or grouping based on types
-8. Disabling and Enabling Item
-9. Double clicking to rename item
+6. ✔️ Double clicking to rename item
+7. Programmatically toggle item visibility based on the `type` property.
+8. Sorting items alphametically or grouping based on types
+9. Disabling and Enabling Item
 10. Programmatically determining what item can be dragged into another item.
 11. Custom Context Menu depending on item type.
 
