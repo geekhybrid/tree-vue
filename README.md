@@ -18,7 +18,7 @@ A light-weight library for management of hierachical content. Most solutions I f
 
 ## What it looks like.
 
-![image](https://user-images.githubusercontent.com/39003759/120940731-9d779580-c716-11eb-9c95-6c1ce388f786.png)
+![image](https://user-images.githubusercontent.com/39003759/125176959-e320f580-e1cf-11eb-886f-7a9c8808c178.png)
 
 ## How to use (Basic).
  
@@ -56,9 +56,6 @@ export interface TreeViewItem {
 ## How to use Advance
 
 ### Custom Icon Based on Item Type.
-
-![image](https://user-images.githubusercontent.com/39003759/121064978-27c80400-c7c0-11eb-887a-db4f29660c8b.png)
-
 You can customise item based on their `type` property.
 
 ```html
