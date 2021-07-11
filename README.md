@@ -2,7 +2,7 @@
 
 A light-weight library for management of hierachical content. Most solutions I found did not offer the depth of flexibility I needed with the tree. I decided to solve my problem and also give back to the Vue community. Feel free to log issues, I will jump on them at the slightest opportunity. 😊
 
-## What it does.
+## Features
 
 1. :heavy_check_mark: Hierachical rendering of content.
 2. ✔️ Subscribing to items checked event (based on type)
@@ -10,18 +10,18 @@ A light-weight library for management of hierachical content. Most solutions I f
 4. :heavy_check_mark: Customising Item Rendering based on item type
 5. ✔️ Rendering selectable items like checkboxes or plain content
 6. ✔️ Double clicking to rename item
-7. Programmatically toggle item visibility based on the `type` property.
-8. Sorting items alphametically or grouping based on types
-9. Disabling and Enabling Item
-10. Programmatically determining what item can be dragged into another item.
-11. Custom Context Menu depending on item type.
 
-## What it looks like.
+## Features in Development
+1. Programmatically toggle item visibility based on the `type` property.
+2. Sorting items alphametically or grouping based on types
+3. Disabling and Enabling Item(s)
+4. Programmatically determining what item can be dragged into another item.
+5. -Custom Context Menu depending on item type.
+
 
 ![image](https://user-images.githubusercontent.com/39003759/125176959-e320f580-e1cf-11eb-886f-7a9c8808c178.png)
 
-## How to use (Basic).
- 
+### Basic Component Rendering
 ``` html
 <template>
     <tree-view :treeViewItems="treeViewNodes" />
@@ -71,10 +71,9 @@ You can customise item based on their `type` property.
 
 ```
 
-### Making Items Checkable Or Plain TreeView Item
+## Advanced Customisation
 
-`Tree-vue` supports 2-major types of tree items. Checkable items or plain items. You can set your preferences for a particular `type`. To do so listen to the createdEvent of the `tree-view` component. 
-
+The library provides a way to further customise the tree view by listening to the `v-on:created` event from the tree-view component. The payload surplied provides robust set of options for configuring the tree.
 
 #### Schema of CreatedEvent Payload
 
@@ -86,7 +85,29 @@ You can customise item based on their `type` property.
     }
 ```
 
-#### Example
+Schema for `ItemTypeCustomisations`
+
+```ts
+export interface ItemTypeCustomisations {
+    isDropValid(droppedNode: TreeViewItem, dropHost: TreeViewItem): boolean;
+    makeItemsCheckable(types: string[]): void;
+    registerItemRenamedHandler(type: string, callback: (renamedItem: TreeViewItem) => Promise<TreeViewItem>): void;
+    registerDragAndDropValidator(canItemMoveCallBack: (movingItem: TreeViewItem, destinationItem: TreeViewItem) => boolean): void;
+    disableDragAndDrop(): void;
+    
+    getCustomisation(type: string): Customisations;
+    getRenameHandler(type: string): (item: TreeViewItem) => Promise<TreeViewItem>;
+
+    registerItemDeletedHandler(type: string, callback: (item: TreeViewItem) => Promise<boolean>): void;
+    registerItemMovedHandler(callBack: (movedItem: TreeViewItem) => Promise<TreeViewItem>): void;
+    
+    registerAnyItemDeleted(callback: (item: TreeViewItem) => Promise<boolean>): void;
+    registerAnyItemRenamed(callback: (item: TreeViewItem) => Promise<TreeViewItem>): void;
+    registerAnyItemDragAndDrop(): void;
+}
+```
+
+## Example
 
 ```html
 <template>
@@ -107,6 +128,7 @@ export default class App extends Vue {
   customiseTreeView(treeCreatedEvent: TreeViewCreatedEventPayload) {
     const customisations = treeCreatedEvent.itemCustomisations;
     
+    // `Tree-vue` supports 2-major types of tree items. Checkable items or plain items.
     customisations.makeItemsCheckable([".doc", ".excel", "media" ]);
   }
 
@@ -183,39 +205,3 @@ export default class App extends Vue {
 | treeViewItems | Empty array      | An array of `TreeViewItem`.       |
 | hideGuideLines | `false` | Determines the visibility of the guidelines
 | selectionMode | `Multiple`   | `Single` or `Multiple`. This determines how many items can be simultaneously selected/checked in the tree.         |
-
-<br>
-
-## :construction: Managing Default Behaviors (WIP)
-
-Out-of-the-box, `v-tree-vue` ships with default behaviors like double clicking an item to rename, pushing the `DEL` key to delete and moving (drag-and-drop) items into new locations. However, this is totally customisable. The default command API exposes the following configurations:
-
-```ts
-export interface ItemBehavior {
-    // Allow customisation of items that can be renamed on the tree.
-    enableRenaming(type: string): void;
-    // Allow customisation of items that can be deleted on the tree.
-    enableDeleting(type: string): void;
-    // Allow registration of handler to be called when an item of a particular type has been deleted.
-    registerItemDeletedHandler(type: string, callback: (item: TreeViewItem) => Promise<TreeViewItem>): void;
-    // Allow registration of a handler to be called when an item of a particular type has been renamed.
-    registerItemRenamedHandler(type: string, callback: (renamedItem: TreeViewItem) => Promise<TreeViewItem>): void;
-    // Allow registration of a handler to be called to verify if a drag-and-drop move operation is valid.
-    registerItemCanMoveHandler(canItemMoveCallBack: (movingItem: TreeViewItem, destinationItem: TreeViewItem) => Promise<boolean>): void;
-    // Allow registration of a handler to be called when a move operation is succesful. The moved item property will contain
-    // the information of the parentID of it's new parent or undefined if it was moved to the root directory.
-    registerItemMovedHandler(callBack: (movedItem: TreeViewItem) => Promise<TreeViewItem>): void;
-}
-```
-
-## One Handler for all Types ? (We've got you covered).
-
-In many cases and existing apps, a single handler is called whenever an item is renamed or deleted irrespective of it's type. This handler may then make an API call that takes care of the rest.
-
-To do so when calling the `registerItemRenamedHandler` or `registerItemDeletedHandler` pass 'ANY_TYPE' as the `type` property. The `callback` will be called whenever ANY item is renamed or deleted.
-
-```ts
-import { ANY_TYPE } from '@/constants.ts';
-```
-
-> This avoids moving magic strings around and provides a central point of change in the future should the need arise. However, you can get rid of the extra import statement and use a string with value 'ANY_TYPE'.

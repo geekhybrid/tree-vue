@@ -61,6 +61,7 @@ export const ItemCustomisations: ItemTypeCustomisations = {
     },
 
     isDropValid(droppedNode: TreeViewItem, dropHost: TreeViewItem): boolean {
+        if (!canItemDrop) return false;
         return canItemDrop(droppedNode, dropHost);
     },
 
