@@ -6,7 +6,8 @@ A light-weight library for management of hierachical content. Most solutions I f
 npm: `npm i v-tree-vue`
 
 Vue 3 Project: https://github.com/geekhybrid/vue3-tree-vue
-Vue 3 npm package: npm i vue3-tree-vue
+
+Vue 3 npm package: `npm i vue3-tree-vue`
 
 
 ## Features
